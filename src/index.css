@@ -1,0 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
+@import "tailwindcss";
+
+:root {
+  --color-join: #29055F;
+  --color-create: #5A84FF;
+  --color-insight: #06034C;
+  --color-text-main: #FAF9FF;
+  --color-background: #191023;
+  background: var(--color-background);
+  --font-main: 'DM Sans', sans-serif;
+}
+
+/* code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+} */
+
+.bg-primary { background-color: var(--color-join); }
+.bg-accent { background-color: var(--color-create); }
+.bg-insight { background-color: var(--color-insight); }
+.text-main { color: var(--color-text-main); }
