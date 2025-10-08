@@ -64,11 +64,7 @@ const Body = () => {
         { path: "*", element: <Navigate to="/" replace /> },
     ]);
 
-    return (
-        <div>
-            <RouterProvider router={appRouter}/>
-        </div>
-     )
+    return <RouterProvider router={appRouter} />;
 }
 
 export default Body;

@@ -7,6 +7,7 @@ import { auth } from "../utils/firebase";
 import { addUser } from "../utils/userSlice";
 import { checkValidData } from "../utils/validate";
 import Header from "./Header";
+import {FiMail, FiLock, FiUser} from "react-icons/fi";
 
 const Login = () => {
   const location = useLocation();
@@ -63,6 +64,7 @@ const Login = () => {
             });
         })
         .catch((error) => {
+          console.log("Firebase error:", error);
           const errorCode = error.code;
           const errorMessage = error.message;
           setErrorMessage(errorCode + "-" + errorMessage);
@@ -95,40 +97,59 @@ const Login = () => {
   };
 
   return (
-    <div style={{ backgroundColor: '#191023' }} className="min-h-screen">
+    <div 
+      className="min-h-screen"
+      style={{
+        background: `
+          radial-gradient(ellipse 90% 40% at center, rgba(6,0,123,0.6) 0%, rgba(25,16,35,1) 70%),
+          radial-gradient(ellipse 50% 25% at 20% 50%, rgba(6,0,123,0.3) 0%, transparent 80%),
+          radial-gradient(ellipse 50% 25% at 80% 50%, rgba(6,0,123,0.3) 0%, transparent 80%)
+        `,
+        backgroundSize: "cover",
+      }}
+    >
       <Header />
       
       <div className="flex items-center justify-center px-6 py-12">
         <form
           onSubmit={(e) => e.preventDefault()}
-          className="w-full max-w-md bg-black bg-opacity-70 p-8 rounded-lg"
+          className="w-full max-w-md p-9"
         >
-          <h1 className="text-3xl font-bold mb-6 text-white">
+          <h1 className="text-3xl font-bold mb-6 pb-15 text-white text-center">
             {isSignInForm ? "Sign In" : "Sign Up"}
           </h1>
 
           {!isSignInForm && (
-            <input
-              ref={name}
-              type="text"
-              placeholder="Full Name"
-              className="w-full p-4 mb-4 bg-gray-700 text-white rounded"
-            />
+            <div className="relative mb-5">
+              <FiUser className="absolute left-5 top-1/2 transform -translate-y-1/2 text-white text-xl" />
+              <input
+                ref={name}
+                type="text"
+                placeholder="Full Name"
+                className="w-full pl-14 pr-5 py-3 bg-transparent text-white rounded-full border-2 border-white border-opacity-40 focus:border-opacity-70 focus:outline-none transition-all placeholder-gray-400"
+              />
+            </div>
           )}
 
-          <input
-            ref={email}
-            type="text"
-            placeholder="Email Address"
-            className="w-full p-4 mb-4 bg-gray-700 text-white rounded"
-          />
+          <div className="relative mb-4">
+            <FiMail className="absolute left-5 top-1/2 transform -translate-y-1/2 text-white text-xl" />
+            <input
+              ref={email}
+              type="text"
+              placeholder="Email Address"
+              className="w-full pl-14 pr-5 py-3 bg-transparent text-white rounded-full border-2 border-white border-opacity-40 focus:border-opacity-70 focus:outline-none transition-all placeholder-gray-400"
+            />
+          </div>
 
-          <input
-            ref={password}
-            type="password"
-            placeholder="Password"
-            className="w-full p-4 mb-4 bg-gray-700 text-white rounded"
-          />
+          <div className="relative mb-7">
+            <FiLock className="absolute left-5 top-1/2 transform -translate-y-1/2 text-white text-xl" />
+            <input
+              ref={password}
+              type="password"
+              placeholder="Password"
+              className="w-full pl-14 pr-5 py-3 bg-transparent text-white rounded-full border-2 border-white border-opacity-40 focus:border-opacity-70 focus:outline-none transition-all placeholder-gray-400"
+            />
+          </div>
 
           {errorMessage && (
             <p className="text-red-500 text-sm mb-4">{errorMessage}</p>
@@ -136,13 +157,13 @@ const Login = () => {
 
           <button
             onClick={handleButtonClick}
-            className="w-full py-3 rounded text-white font-semibold hover:opacity-90 transition-opacity"
-            style={{ backgroundColor: '#5A84FF' }}
+            className="w-full  py-3 rounded-full text-lg font-medium text-main bg-accent transition-all duration-200 hover:opacity-90"
+          style={{ backgroundColor: "var(--color-join)" }}
           >
             {isSignInForm ? "Sign In" : "Sign Up"}
           </button>
 
-          <p className="mt-4 text-gray-400 cursor-pointer" onClick={toggleSignInForm}>
+          <p className="mt-6 text-gray-400 cursor-pointer" onClick={toggleSignInForm}>
             {isSignInForm
               ? "New? Sign Up."
               : "Coming back? Sign In."}

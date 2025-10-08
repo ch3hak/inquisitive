@@ -2,6 +2,7 @@ import { signOut } from "firebase/auth";
 import { auth } from "../utils/firebase";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import logo from "../assets/LOGO.svg"
 
 const Header = () => {
   const navigate = useNavigate();
@@ -16,25 +17,26 @@ const Header = () => {
     });
   }
   return (
-    <div style={{ display: "flex", justifyContent: "space-between", padding: "1em", alignItems: "center", borderBottom: "1px solid #ddd" }}>
-      
+    <div className="flex items-center justify-between pt-6 px-6">      
       <img 
-        src="/logo.png"
+        src={logo}
         alt="Quiz App Logo"
-        style={{ height: "40px", cursor: "pointer" }}
+        className="h-8 cursor-pointer"
         onClick={() => navigate("/home")}
       />
 
       {user && (
-        <div style={{ display: "flex", alignItems: "center", gap: "1em" }}>
+        <div className="flex items-center gap-4">
           <img 
             alt="User Icon" 
             src={user?.photoURL || "https://via.placeholder.com/40"} 
-            style={{ width: 40, height: 40, borderRadius: "50%" }} 
+            className="w-10 h-10 rounded-full cursor-pointer"
             onClick={() => navigate("/user")}
           />
 
-          <button onClick={handleSignOut} style={{ padding: "0.5em 1em" }}>
+          <button onClick={handleSignOut}
+            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
+          >
             Sign Out
           </button>
         </div>

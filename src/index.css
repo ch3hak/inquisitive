@@ -1,14 +1,51 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
 @import "tailwindcss";
 
+
+
+.dm-sans-regular {
+  font-family: "DM Sans", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+}
+
+.dm-sans-italic {
+  font-family: "DM Sans", sans-serif;
+  font-weight: 300;
+  font-style: italic;
+}
+
+.dm-sans-bold {
+  font-family: "DM Sans", sans-serif;
+  font-weight: 800;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Bodoni72';
+  src: local('Bodoni72 Regular'), url('./assets/font-zips/bodoni-72-book.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Bodoni72 Bold';
+  src: local('Bodoni72 Bold'), url('./assets/font-zips/bodoni-72-bold.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+
 :root {
+  box-sizing: border-box;
   --color-join: #29055F;
   --color-create: #5A84FF;
   --color-insight: #06034C;
-  --color-text-main: #FAF9FF;
+  --color-text-main: #FFFFFF;
   --color-background: #191023;
   background: var(--color-background);
   --font-main: 'DM Sans', sans-serif;
+  --font-heading: "Bodoni72", sans-serif;
 }
 
 /* code {

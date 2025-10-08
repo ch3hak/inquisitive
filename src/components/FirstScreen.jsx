@@ -14,28 +14,35 @@ const FirstScreen = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center px-6" 
-         style={{ backgroundColor: "var(--color-background)" }}>
-      
-      <div className="flex flex-col items-center mb-16">
-        <img 
-            src={logo} 
-            alt="Inquizitive Logo" 
-            className="w-48 h-48 mb-8" 
+    <div
+      className="min-h-screen w-full flex flex-col items-center justify-center px-6 text-center space-y-16"
+      style={{
+        background: `
+          radial-gradient(ellipse 90% 40% at center, rgba(6,0,123,0.6) 0%, rgba(25,16,35,1) 70%),
+          radial-gradient(ellipse 50% 25% at 20% 50%, rgba(6,0,123,0.3) 0%, transparent 80%),
+          radial-gradient(ellipse 50% 25% at 80% 50%, rgba(6,0,123,0.3) 0%, transparent 80%)
+        `,
+        backgroundSize: "cover",
+      }}
+    >
+      <div className="space-y-8">
+        <img
+          src={logo}
+          alt="Inquizitive Logo"
+          className="w-48 h-48 mx-auto"
         />
-
-        <h1 
-            className="text-4xl font-light tracking-wide text-white"
-            style={{fontFamily: "var(--font-main)" }}
+        <h1
+          className="text-6xl font-heading tracking-wide text-white"
+          style={{ fontFamily: "var(--font-heading)" }}
         >
           Inquizitive
         </h1>
       </div>
 
-      <div className="w-full max-w-sm space-y-4">
+      <div className="flex flex-col items-center space-y-4">
         <button
           onClick={handleSignIn}
-          className="w-full py-4 rounded-full text-lg font-medium text-main bg-accent transition-all duration-200 hover:opacity-90"
+          className="px-20 py-4 rounded-full text-lg font-medium text-main bg-accent transition-all duration-200 hover:opacity-90"
           style={{ backgroundColor: "var(--color-join)" }}
         >
           Sign In
@@ -43,7 +50,7 @@ const FirstScreen = () => {
 
         <button
           onClick={handleSignUp}
-          className="w-full py-4  rounded-full text-lg font-medium text-main bg-accent transition-all duration-200 hover:opacity-90"
+          className="px-19 py-3.5 rounded-full text-lg font-medium text-main bg-accent transition-all duration-200 hover:opacity-90"
           style={{ backgroundColor: "var(--color-create)" }}
         >
           Sign Up
