@@ -2,7 +2,8 @@ import { signOut } from "firebase/auth";
 import { auth } from "../utils/firebase";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import logo from "../assets/LOGO.svg"
+import logo from "../assets/LOGO.svg";
+import { FiPower, FiUser } from "react-icons/fi";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -25,19 +26,24 @@ const Header = () => {
         onClick={() => navigate("/home")}
       />
 
-      {user && (
+{user && (
         <div className="flex items-center gap-4">
-          <img 
-            alt="User Icon" 
-            src={user?.photoURL || "https://via.placeholder.com/40"} 
-            className="w-10 h-10 rounded-full cursor-pointer"
+          <button
             onClick={() => navigate("/user")}
-          />
-
-          <button onClick={handleSignOut}
-            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
+            title={user.displayName || user.email || "Profile"}
+            aria-label="Open profile"
+            className="p-2 focus:outline-none focus:ring-2 focus:ring-white/25 rounded"
           >
-            Sign Out
+            <FiUser className="w-6 h-6 text-white" />
+          </button>
+
+          <button
+            onClick={handleSignOut}
+            title="Sign out"
+            aria-label="Sign out"
+            className="w-5 h-5 flex items-center justify-center rounded-full bg-transparent hover:bg-white/10 transition"
+          >
+            <FiPower className="w-10 h-10 text-white" />
           </button>
         </div>
       )}

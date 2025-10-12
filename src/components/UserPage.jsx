@@ -3,6 +3,7 @@ import { auth, db } from "../utils/firebase";
 import { collection, collectionGroup, query, where, getDocs, getDoc, doc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import Header from "./Header";
 
 const UserPage = () => {
   const navigate = useNavigate();
@@ -56,6 +57,7 @@ const UserPage = () => {
 
   return (
     <div style={{ maxWidth: 800, margin: "2em auto", padding: "1em" }}>
+      <Header/>
       <h1>Welcome, {user?.displayName || user?.email}</h1>
       {user?.photoURL && (
         <img
@@ -69,7 +71,7 @@ const UserPage = () => {
       <section style={{ marginTop: "2em" }}>
         <h2>Your Created Quizzes</h2>
         {createdQuizzes.length === 0 ? (
-          <p>You haven’t created any quizzes yet.</p>
+          <p>You haven't created any quizzes yet.</p>
         ) : (
           <ul>
             {createdQuizzes.map(q => (
