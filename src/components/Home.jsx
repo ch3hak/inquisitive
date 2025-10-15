@@ -121,11 +121,11 @@ const Home = () => {
               </button>
             </div>
             
-            {hoveredCard === 'create' && (
+            {/* {hoveredCard === 'create' && (
               <p className="mt-auto text-lg opacity-90" style={{ animation: 'fadeIn 0.3s ease-out' }}>
                 Your Quiz is always a<br/>click away
               </p>
-            )}
+            )} */}
           </div>
         </div>
 
@@ -137,7 +137,7 @@ const Home = () => {
           }}
           onMouseEnter={() => setHoveredCard('insights')}
           onMouseLeave={() => setHoveredCard(null)}
-          onClick={() => handleNavigate("/insights")}
+          onClick={() => navigate("/insights")}
         >
           <div className="p-8 h-full flex flex-col">
             <div className="flex justify-between items-center">

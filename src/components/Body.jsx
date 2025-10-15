@@ -7,6 +7,9 @@ import Home from "./Home";
 import ResponsesPage from './ResponsesPage';
 import ScoreCard from "./ScoreCard";
 import UserPage from "./UserPage";
+import JoinedQuizzes from "./JoinedQuizzes";
+import CreatedQuizzes from "./CreatedQuizzes";
+import InsightsPage from "./InsightsPage";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addUser, removeUser } from "../utils/userSlice";
@@ -58,7 +61,10 @@ const Body = () => {
             { path: "/quiz/:code",  element: <QuizPage /> },
             { path: "/quiz/:code/responses", element: <ResponsesPage /> },
             { path: "/quiz/:code/score", element: <ScoreCard />},
-            { path: "/user",       element: <UserPage /> }
+            { path: "/user",       element: <UserPage /> },
+            { path: "/joined-quizzes", element: <JoinedQuizzes/>},
+            { path: "/created-quizzes", element: <CreatedQuizzes />},
+            { path: "/insights", element: <InsightsPage/>}
           ]
         },
         { path: "*", element: <Navigate to="/" replace /> },

@@ -387,7 +387,7 @@ const CreateQuiz = () => {
           onMouseLeave={(e) => e.target.style.background = 'var(--color-create)'}
         >
           <span className="text-xl" style={{ fontFamily: 'var(--font-heading)' }}>
-            Finish Quiz
+            Create Quiz
           </span>
         </button>
       </div>

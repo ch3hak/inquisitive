@@ -57,3 +57,39 @@
 .bg-insight { background-color: var(--color-insight); }
 .text-main { color: var(--color-text-main); }
 
+.block-card {
+  background: var(--color-join);
+  border-radius: 18px;
+  padding: 1.5em 1.5em 1.3em 1.5em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  transform: scale(1);
+  transition: transform 0.18s cubic-bezier(.38,.41,.67,1.09);
+  position: relative;
+  font-family: var(--font-main);
+  color: var(--color-text-main);
+  user-select: none;
+}
+
+.block-card.block-create{ 
+  background: var(--color-create);
+}
+.block-card.block-insight{
+  background: var(--color-insight); 
+}
+
+.block-card:hover,
+.block-card:focus {
+  transform: scale(1.035);
+  z-index: 2;
+}
+
+.arrow-rot {
+  transition: transform 0.3s cubic-bezier(.38,.41,.67,1.09);
+}
+
+.block-card:hover .arrow-rot {
+  transform: rotate(-45deg);
+}
