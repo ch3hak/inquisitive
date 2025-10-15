@@ -153,7 +153,7 @@ const JoinedQuizzes = () => {
                   strokeLinejoin="round"
                   className="transition-transform duration-300 ease-out"
                   style={{
-                    transform: hoveredCard === quizId ? "rotate(-45deg)" : "rotate(0deg)"
+                    transform: hoveredCard === quizId ? "rotate(-90deg)" : "rotate(0deg)"
                   }}
                 >
                   <line x1="5" y1="12" x2="19" y2="12"></line>

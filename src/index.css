@@ -39,7 +39,9 @@
 :root {
   box-sizing: border-box;
   --color-join: #29055F;
+  --color-join-highlight: #37087E; 
   --color-create: #5A84FF;
+  --color-create-highlight: #789AFF;
   --color-insight: #06034C;
   --color-text-main: #FFFFFF;
   --color-background: #191023;
@@ -48,16 +50,12 @@
   --font-heading: "Bodoni72", sans-serif;
 }
 
-/* code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
-} */
-
 .bg-primary { background-color: var(--color-join); }
 .bg-accent { background-color: var(--color-create); }
 .bg-insight { background-color: var(--color-insight); }
 .text-main { color: var(--color-text-main); }
 
-.block-card {
+/* .block-card {
   background: var(--color-join);
   border-radius: 18px;
   padding: 1.5em 1.5em 1.3em 1.5em;
@@ -92,4 +90,4 @@
 
 .block-card:hover .arrow-rot {
   transform: rotate(-45deg);
-}
+} */

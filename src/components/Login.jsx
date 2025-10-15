@@ -47,14 +47,17 @@ const Login = () => {
             displayName: name.current.value,
             photoURL: "https://example.com/jane-q-user/profile.jpg"
           })
-            .then(() => {
-              const { uid, email, displayName, photoURL } = auth.currentUser;
+            .then(async() => {
+              await user.reload();
+              const updatedUser = auth.currentUser;
+
+              // const { uid, email, displayName, photoURL } = auth.currentUser;
               dispatch(
                 addUser({
-                  uid: uid,
-                  email: email,
-                  displayName: displayName,
-                  photoURL: photoURL,
+                  uid: updatedUser.uid,
+                  email: updatedUser.email,
+                  displayName: updatedUser.displayName,
+                  photoURL: updatedUser.photoURL,
                 })
               );
               navigate("/home");
