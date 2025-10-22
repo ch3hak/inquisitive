@@ -14,7 +14,7 @@ const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
   authDomain: "inquizitive-293.firebaseapp.com",
   projectId: "inquizitive-293",
-  storageBucket: "inquizitive-293.appspot.app",
+  storageBucket: "inquizitive-293.appspot.com",
   messagingSenderId: "242535922641",
   appId: "1:242535922641:web:2b42f36e0fe1a8cdbdbef0",
   measurementId: "G-1G6VNPRF08"

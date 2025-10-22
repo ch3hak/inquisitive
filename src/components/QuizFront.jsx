@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { storage } from '../utils/firebase';
+import Header from './Header';
 
 const QuizFront = ({ mode, onProceed, quizData }) => {
   const navigate = useNavigate();
@@ -16,18 +15,13 @@ const QuizFront = ({ mode, onProceed, quizData }) => {
     const file = e.target.files[0];
     if (!file) return;
 
-    try {
-      setUploading(true);
-      const storageRef = ref(storage, `quiz-banners/${Date.now()}_${file.name}`);
-      await uploadBytes(storageRef, file);
-      const downloadURL = await getDownloadURL(storageRef);
-      setBannerImage(downloadURL);
-    } catch (error) {
-      console.error('Error uploading image:', error);
-      alert('Failed to upload image');
-    } finally {
+    setUploading(true);
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setBannerImage(reader.result); 
       setUploading(false);
-    }
+    };
+    reader.readAsDataURL(file);
   };
 
   const handleProceed = () => {
@@ -55,8 +49,6 @@ const QuizFront = ({ mode, onProceed, quizData }) => {
     if (seconds > 0) parts.push(`${seconds}s`);
     return parts.join(' ') || '0s';
   };
-
-  const totalDurationInSeconds = (duration.hours * 3600) + (duration.minutes * 60) + duration.seconds;
 
   if (mode === 'join') {
     return (
@@ -147,59 +139,62 @@ const QuizFront = ({ mode, onProceed, quizData }) => {
 
   return (
     <div className="min-h-screen flex flex-col text-white" style={{ background: 'var(--color-background)' }}>
-      <div className="flex-1 flex flex-col items-center justify-center px-6 py-12">
-        <div className="w-full max-w-md">
-          <p className="text-sm text-center mb-2 opacity-60" style={{ fontStyle: 'italic', fontFamily: 'var(--font-main)' }}>
-            title
-          </p>
-          
+      <div className="w-full" style={{ background: '#D9D9D9' }}>
+        <div className="max-w-md mx-auto">
+          <label 
+            htmlFor="banner-upload"
+            className="w-full h-48 flex items-center justify-center cursor-pointer transition-all"
+            style={{ 
+              background: bannerImage ? 'transparent' : 'rgba(90, 132, 255, 0.2)',
+              backgroundImage: bannerImage ? `url(${bannerImage})` : 'none',
+              backgroundSize: 'cover',
+              backgroundPosition: 'center'
+            }}
+          >
+            {!bannerImage && !uploading && (
+              <div className="text-center">
+                <svg className="w-12 h-12 mx-auto mb-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                  <polyline points="17 8 12 3 7 8"/>
+                  <line x1="12" y1="3" x2="12" y2="15"/>
+                </svg>
+                <p style={{ fontFamily: 'var(--font-main)' }}>Upload Banner Image</p>
+              </div>
+            )}
+            {uploading && <p>Uploading...</p>}
+          </label>
           <input
-            type="text"
-            placeholder="Enter Quiz Title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            className="w-full bg-transparent text-white text-center text-4xl uppercase mb-8 outline-none placeholder-white placeholder-opacity-40"
-            style={{ fontFamily: 'var(--font-heading)', border: 'none' }}
+            id="banner-upload"
+            type="file"
+            accept="image/*"
+            onChange={handleImageUpload}
+            className="hidden"
           />
+        </div>
+      </div>
 
-          <div className="w-full mb-8">
-            <label 
-              htmlFor="banner-upload"
-              className="w-full h-48 rounded-2xl flex items-center justify-center cursor-pointer transition-all"
-              style={{ 
-                background: bannerImage ? 'transparent' : 'var(--color-create)',
-                backgroundImage: bannerImage ? `url(${bannerImage})` : 'none',
-                backgroundSize: 'cover',
-                backgroundPosition: 'center'
-              }}
-            >
-              {!bannerImage && !uploading && (
-                <div className="text-center">
-                  <svg className="w-12 h-12 mx-auto mb-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                    <polyline points="17 8 12 3 7 8"/>
-                    <line x1="12" y1="3" x2="12" y2="15"/>
-                  </svg>
-                  <p style={{ fontFamily: 'var(--font-main)' }}>Upload Banner Image</p>
-                </div>
-              )}
-              {uploading && <p>Uploading...</p>}
-            </label>
+      <div className="flex-1 flex flex-col items-center justify-start px-6 py-8">
+        <div className="w-full max-w-md">
+          <div className="rounded-3xl p-6 mb-8" style={{ background: 'var(--color-create)' }}>
+            <p className="text-sm text-center mb-2 opacity-60" style={{ fontStyle: 'italic', fontFamily: 'var(--font-main)' }}>
+              title
+            </p>
             <input
-              id="banner-upload"
-              type="file"
-              accept="image/*"
-              onChange={handleImageUpload}
-              className="hidden"
+              type="text"
+              placeholder="Enter Quiz Title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              className="w-full bg-transparent text-white text-center text-3xl uppercase outline-none placeholder-white placeholder-opacity-40"
+              style={{ fontFamily: 'var(--font-heading)', border: 'none' }}
             />
           </div>
 
           <div className="space-y-4 mb-8">
             <div>
               <label className="block text-xl mb-2" style={{ fontFamily: 'var(--font-heading)', fontStyle: 'italic' }}>
-                Time Limit
+                Time
               </label>
-              <div className="flex gap-2 items-center">
+              <div className="flex gap-2 items-center justify-center">
                 <input
                   type="number"
                   min="0"
@@ -208,7 +203,7 @@ const QuizFront = ({ mode, onProceed, quizData }) => {
                   onChange={(e) => setDuration({ ...duration, hours: parseInt(e.target.value) || 0 })}
                   className="w-20 px-3 py-2 rounded-lg text-center"
                   style={{ background: 'rgba(90, 132, 255, 0.3)', fontFamily: 'var(--font-main)', color: 'white' }}
-                  placeholder="HH"
+                  placeholder="00"
                 />
                 <span>:</span>
                 <input
@@ -219,7 +214,7 @@ const QuizFront = ({ mode, onProceed, quizData }) => {
                   onChange={(e) => setDuration({ ...duration, minutes: parseInt(e.target.value) || 0 })}
                   className="w-20 px-3 py-2 rounded-lg text-center"
                   style={{ background: 'rgba(90, 132, 255, 0.3)', fontFamily: 'var(--font-main)', color: 'white' }}
-                  placeholder="MM"
+                  placeholder="00"
                 />
                 <span>:</span>
                 <input
@@ -230,7 +225,7 @@ const QuizFront = ({ mode, onProceed, quizData }) => {
                   onChange={(e) => setDuration({ ...duration, seconds: parseInt(e.target.value) || 0 })}
                   className="w-20 px-3 py-2 rounded-lg text-center"
                   style={{ background: 'rgba(90, 132, 255, 0.3)', fontFamily: 'var(--font-main)', color: 'white' }}
-                  placeholder="SS"
+                  placeholder="00"
                 />
               </div>
             </div>

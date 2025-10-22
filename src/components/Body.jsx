@@ -5,7 +5,7 @@ import JoinQuiz from "./JoinQuiz";
 import QuizPage from "./QuizPage";
 import Home from "./Home";
 import ResponsesPage from './ResponsesPage';
-import ScoreCard from "./ScoreCard";
+import ScoreCard from "./ScorePage";
 import UserPage from "./UserPage";
 import JoinedQuizzes from "./JoinedQuizzes";
 import CreatedQuizzes from "./CreatedQuizzes";

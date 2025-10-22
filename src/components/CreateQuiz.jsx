@@ -117,9 +117,7 @@ const CreateQuiz = () => {
 
     try {
       const quizCode = await generateQuizCode(8);
-      const totalDurationInSeconds = (frontData.duration.hours * 3600) + 
-                                     (frontData.duration.minutes * 60) + 
-                                     frontData.duration.seconds;
+      const totalDurationInSeconds = (frontData.duration.hours * 3600) + (frontData.duration.minutes * 60) + frontData.duration.seconds;
 
       const quizData = {
         title: frontData.title,

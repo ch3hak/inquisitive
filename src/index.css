@@ -47,6 +47,7 @@
   --color-background: #191023;
   --color-text-wrong: #A62F24;
   --color-bg-wrong: #CCC5D7;
+  --color-insights-blue: #06007B;
   background: var(--color-background);
   --font-main: 'DM Sans', sans-serif;
   --font-heading: "Bodoni72", sans-serif;
