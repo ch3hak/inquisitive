@@ -8,10 +8,11 @@ import {
   getDocs,
   doc,
   setDoc,
+  getDoc,
   updateDoc,
   deleteDoc
 } from "firebase/firestore";
-import dots from "../assets/atr.svg";
+import QuizFront from "./QuizFront";
 
 const QuizPage = () => {
   const { code } = useParams();
@@ -27,6 +28,10 @@ const QuizPage = () => {
   const [questionsEdit, setQuestionsEdit] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(null);
   const [hoveredQuestionIndex, setHoveredQuestionIndex] = useState(null);
+  const [showQuizFront, setShowQuizFront] = useState(true);
+  const [userResponse, setUserResponse] = useState(null);
+  const [timeRemaining, setTimeRemaining] = useState(null);
+  const [timerActive, setTimerActive] = useState(false);
 
   useEffect(() => {
     const loadByCode = async () => {
@@ -40,8 +45,19 @@ const QuizPage = () => {
         }
 
         const quizDoc = snap.docs[0];
-        setQuizMeta(quizDoc.data());
+        const quizData = quizDoc.data();
+        setQuizMeta(quizData);
         setQuizId(quizDoc.id);
+
+        // Check if user already attempted
+        if (auth.currentUser) {
+          const responseDoc = await getDoc(
+            doc(db, "quizzes", quizDoc.id, "responses", auth.currentUser.uid)
+          );
+          if (responseDoc.exists()) {
+            setUserResponse(responseDoc.data());
+          }
+        }
 
         const qsSnap = await getDocs(collection(db, "quizzes", quizDoc.id, "questions"));
         const qs = qsSnap.docs.map(d => ({ id: d.id, ...d.data() }));
@@ -50,6 +66,11 @@ const QuizPage = () => {
         const init = {};
         qs.forEach((_, idx) => { init[idx] = null; });
         setAnswers(init);
+
+        // Set timer if quiz has duration
+        if (quizData.duration) {
+          setTimeRemaining(quizData.duration);
+        }
       } catch (err) {
         setError(err.message);
       } finally {
@@ -58,6 +79,36 @@ const QuizPage = () => {
     };
     loadByCode();
   }, [code]);
+
+  // Timer effect
+  useEffect(() => {
+    if (!timerActive || timeRemaining === null || timeRemaining <= 0) return;
+
+    const interval = setInterval(() => {
+      setTimeRemaining(prev => {
+        if (prev <= 1) {
+          clearInterval(interval);
+          submitQuiz(); // Auto-submit when time runs out
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [timerActive, timeRemaining]);
+
+  const formatTime = (seconds) => {
+    const hrs = Math.floor(seconds / 3600);
+    const mins = Math.floor((seconds % 3600) / 60);
+    const secs = seconds % 60;
+    return `${hrs.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+  };
+
+  const handleFrontProceed = () => {
+    setShowQuizFront(false);
+    setTimerActive(true); // Start timer when quiz begins
+  };
 
   const handleEdit = () => {
     setTitleEdit(quizMeta.title);
@@ -88,12 +139,17 @@ const QuizPage = () => {
     }
   };
 
+  const toggleAcceptingResponses = async () => {
+    const newStatus = !quizMeta.acceptingResponses;
+    await updateDoc(doc(db, "quizzes", quizId), { 
+      acceptingResponses: newStatus 
+    });
+    setQuizMeta(meta => ({ ...meta, acceptingResponses: newStatus }));
+  };
+
   const handleViewResponses = () => {
     navigate(`/quiz/${code}/responses`);
   };
-
-  const pickAnswer = (qIdx, optIdx) =>
-    setAnswers(a => ({ ...a, [qIdx]: optIdx }));
 
   const handleQuestionClick = (index) => {
     setCurrentQuestionIndex(index);
@@ -107,17 +163,30 @@ const QuizPage = () => {
     setCurrentQuestionIndex(newIndex);
   };
 
+  const pickAnswer = (qIdx, optIdx) =>
+    setAnswers(a => ({ ...a, [qIdx]: optIdx }));
+
   const submitQuiz = async () => {
     let s = 0;
+    const userAnswersWithCorrect = {};
+    
     questions.forEach((q, idx) => {
-      if (answers[idx] === q.correctOption) s++;
+      const isCorrect = answers[idx] === q.correctOption;
+      if (isCorrect) s++;
+      
+      userAnswersWithCorrect[idx] = {
+        selectedOption: answers[idx],
+        correctOption: q.correctOption,
+        isCorrect: isCorrect
+      };
     });
+
     if (auth.currentUser && quizId) {
       await setDoc(
         doc(db, "quizzes", quizId, "responses", auth.currentUser.uid),
         {
           uid: auth.currentUser.uid,
-          answers,
+          answers: userAnswersWithCorrect,
           score: s,
           takenAt: timestamp(),
           user: auth.currentUser.displayName || auth.currentUser.email,
@@ -136,10 +205,109 @@ const QuizPage = () => {
   const isOwner = quizMeta.createdBy === auth.currentUser?.uid;
   const allAnswered = questions.length > 0 && Object.values(answers).every(v => v !== null);
 
-  if (currentQuestionIndex !== null) {
+  // Show QuizFront for join mode (non-owners)
+  if (showQuizFront && !isOwner && !userResponse) {
+    const formattedQuizData = {
+      ...quizMeta,
+      duration: {
+        hours: Math.floor(quizMeta.duration / 3600),
+        minutes: Math.floor((quizMeta.duration % 3600) / 60),
+        seconds: quizMeta.duration % 60
+      }
+    };
+    return <QuizFront mode="join" quizData={formattedQuizData} onProceed={handleFrontProceed} />;
+  }
+
+  // Show review mode if user already attempted
+  if (userResponse && !isOwner) {
+    return (
+      <div className="min-h-screen px-6 py-12" style={{ background: 'var(--color-background)' }}>
+        <div className="max-w-md mx-auto">
+          <div className="text-center mb-12 text-white">
+            <h1 className="text-4xl mb-3" style={{ fontFamily: 'var(--font-heading)', textTransform: 'uppercase' }}>
+              {quizMeta.title || "Untitled"}
+            </h1>
+            <p className="text-lg dm-sans-regular mb-2">
+              Your Score: {userResponse.score} / {questions.length}
+            </p>
+          </div>
+
+          <div className="space-y-4 mb-6">
+            {questions.map((q, index) => {
+              const userAnswer = userResponse.answers[index];
+              const isCorrect = userAnswer?.isCorrect;
+              
+              return (
+                <div
+                  key={q.id}
+                  className="rounded-3xl p-5 text-white"
+                  style={{
+                    background: isCorrect ? 'rgba(76, 175, 80, 0.3)' : 'rgba(244, 67, 54, 0.3)',
+                    border: `2px solid ${isCorrect ? '#4CAF50' : '#F44336'}`
+                  }}
+                >
+                  <h3 className="text-xl mb-3" style={{ fontFamily: 'var(--font-heading)' }}>
+                    Q{index + 1}. {q.description}
+                  </h3>
+                  
+                  <div className="space-y-2">
+                    {q.options.map((opt, optIdx) => {
+                      const isUserSelection = userAnswer?.selectedOption === optIdx;
+                      const isCorrectOption = q.correctOption === optIdx;
+                      
+                      return (
+                        <div
+                          key={optIdx}
+                          className="py-3 px-4 rounded-2xl dm-sans-regular"
+                          style={{
+                            background: isCorrectOption 
+                              ? 'rgba(76, 175, 80, 0.5)' 
+                              : isUserSelection 
+                                ? 'rgba(244, 67, 54, 0.5)'
+                                : 'rgba(255, 255, 255, 0.1)',
+                            border: isCorrectOption 
+                              ? '2px solid #4CAF50'
+                              : isUserSelection
+                                ? '2px solid #F44336'
+                                : 'none'
+                          }}
+                        >
+                          {opt}
+                          {isCorrectOption && <span className="ml-2">✓</span>}
+                          {isUserSelection && !isCorrectOption && <span className="ml-2">✗</span>}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          <button
+            onClick={() => navigate('/joined-quizzes')}
+            className="w-full py-5 px-6 rounded-3xl text-xl transition-all text-white"
+            style={{ background: 'var(--color-join)', fontFamily: 'var(--font-heading)' }}
+          >
+            Back to Joined Quizzes
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // Question view for taking quiz
+  if (currentQuestionIndex !== null && !userResponse) {
     const q = questions[currentQuestionIndex];
     return (
       <div className="min-h-screen flex flex-col" style={{ background: 'var(--color-join)' }}>
+        {/* Timer Display */}
+        {timeRemaining !== null && (
+          <div className="text-center py-4 text-white text-2xl" style={{ fontFamily: 'var(--font-heading)' }}>
+            Time Remaining: {formatTime(timeRemaining)}
+          </div>
+        )}
+
         <div className="flex-1 flex flex-col items-center justify-center px-6 py-12">
           <div className="w-full max-w-md space-y-8">
             <div className="text-center text-white">
@@ -231,7 +399,6 @@ const QuizPage = () => {
     );
   }
 
-
   if (editMode) {
     return (
       <div style={{ maxWidth: 600, margin: "2em auto", padding: "1em" }} className="text-white">
@@ -287,7 +454,6 @@ const QuizPage = () => {
     );
   }
 
-
   return (
     <div className="min-h-screen px-6 py-12" style={{ background: 'var(--color-background)' }}>
       <div className="max-w-md mx-auto">
@@ -299,30 +465,59 @@ const QuizPage = () => {
             {quizMeta.title || "Untitled"}
           </h1>
           <p className="text-xs dm-sans-italic opacity-80">
-            By: 
+            By: {quizMeta.createdName}
           </p>
         </div>
 
         {isOwner && (
-          <div className="mb-6 text-right space-x-2">
-            <button
-              onClick={handleEdit}
-              className="px-4 py-2 rounded-lg dm-sans-regular text-white"
-              style={{ background: 'rgba(255, 255, 255, 0.1)' }}
-            >
-              Edit Quiz
-            </button>
-            <button
-              onClick={handleViewResponses}
-              className="px-4 py-2 rounded-lg dm-sans-regular text-white"
-              style={{ background: 'rgba(255, 255, 255, 0.1)' }}
-            >
-              View Responses
-            </button>
+          <div className="mb-6 space-y-3">
+            <div className="flex items-center justify-between p-4 rounded-2xl" style={{ background: 'rgba(90, 132, 255, 0.2)' }}>
+              <span className="dm-sans-regular text-white">
+                {quizMeta.acceptingResponses ? 'Accepting Responses' : 'Responses Stopped'}
+              </span>
+              <button
+                onClick={toggleAcceptingResponses}
+                className="w-14 h-7 rounded-full relative transition-all"
+                style={{ 
+                  background: quizMeta.acceptingResponses ? '#4CAF50' : '#F44336'
+                }}
+              >
+                <div
+                  className="w-5 h-5 rounded-full bg-white absolute top-1 transition-all"
+                  style={{ 
+                    left: quizMeta.acceptingResponses ? '32px' : '4px'
+                  }}
+                />
+              </button>
+            </div>
+
+            <div className="flex gap-2">
+              <button
+                onClick={handleEdit}
+                className="flex-1 px-4 py-3 rounded-2xl dm-sans-regular text-white transition-all"
+                style={{ background: 'rgba(255, 255, 255, 0.1)' }}
+                onMouseEnter={(e) => e.target.style.background = 'rgba(255, 255, 255, 0.2)'}
+                onMouseLeave={(e) => e.target.style.background = 'rgba(255, 255, 255, 0.1)'}
+              >
+                Edit Quiz
+              </button>
+              <button
+                onClick={handleViewResponses}
+                className="flex-1 px-4 py-3 rounded-2xl dm-sans-regular text-white transition-all"
+                style={{ background: 'rgba(255, 255, 255, 0.1)' }}
+                onMouseEnter={(e) => e.target.style.background = 'rgba(255, 255, 255, 0.2)'}
+                onMouseLeave={(e) => e.target.style.background = 'rgba(255, 255, 255, 0.1)'}
+              >
+                View Responses
+              </button>
+            </div>
+            
             <button
               onClick={handleDelete}
-              className="px-4 py-2 rounded-lg dm-sans-regular text-white"
+              className="w-full px-4 py-3 rounded-2xl dm-sans-regular text-white transition-all"
               style={{ background: 'rgba(255, 0, 0, 0.3)' }}
+              onMouseEnter={(e) => e.target.style.background = 'rgba(255, 0, 0, 0.4)'}
+              onMouseLeave={(e) => e.target.style.background = 'rgba(255, 0, 0, 0.3)'}
             >
               Delete Quiz
             </button>
@@ -341,7 +536,7 @@ const QuizPage = () => {
               }}
               onMouseEnter={() => setHoveredQuestionIndex(index)}
               onMouseLeave={() => setHoveredQuestionIndex(null)}
-              onClick={() => handleQuestionClick(index)}
+              onClick={() => !userResponse && handleQuestionClick(index)}
             >
               <div className="h-full p-5 flex items-center justify-between gap-3 text-white">
                 <div className="flex-1">
@@ -356,39 +551,47 @@ const QuizPage = () => {
                 </div>
 
                 <button className="w-10 h-10 rounded-full border-2 border-white flex items-center justify-center transition-transform duration-300">
-                <svg 
-                  viewBox="0 0 24 24" 
-                  fill="none" 
-                  stroke="currentColor" 
-                  strokeWidth="2"
-                  className="w-6 h-6 transition-transform duration-300"
-                  style={{ transform: hoveredQuestionIndex === 'join' ? 'rotate(-90deg)' : 'rotate(0deg)' }}
-                >
-                  <path d="M5 12h14M12 5l7 7-7 7"/>
-                </svg>
-              </button>
+                  <svg 
+                    viewBox="0 0 24 24" 
+                    fill="none" 
+                    stroke="currentColor" 
+                    strokeWidth="2"
+                    className="w-6 h-6 transition-transform duration-300"
+                    style={{ transform: hoveredQuestionIndex === index ? 'rotate(-90deg)' : 'rotate(0deg)' }}
+                  >
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                  </svg>
+                </button>
               </div>
             </div>
           ))}
         </div>
 
-        <button
-          onClick={submitQuiz}
-          disabled={!allAnswered}
-          className="w-full py-5 px-6 rounded-3xl text-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed text-white"
-          style={{
-            background: allAnswered ? 'var(--color-join)' : 'rgba(41, 5, 95, 0.5)',
-            fontFamily: 'var(--font-heading)'
-          }}
-          onMouseEnter={(e) => {
-            if (allAnswered) e.target.style.background = 'var(--color-join-highlight)';
-          }}
-          onMouseLeave={(e) => {
-            if (allAnswered) e.target.style.background = 'var(--color-join)';
-          }}
-        >
-          Submit Quiz
-        </button>
+        {!isOwner && !userResponse && !quizMeta.acceptingResponses && (
+          <div className="text-center text-red-400 mb-4 dm-sans-regular">
+            This quiz is not currently accepting responses.
+          </div>
+        )}
+
+        {!isOwner && !userResponse && quizMeta.acceptingResponses && (
+          <button
+            onClick={submitQuiz}
+            disabled={!allAnswered}
+            className="w-full py-5 px-6 rounded-3xl text-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed text-white"
+            style={{
+              background: allAnswered ? 'var(--color-join)' : 'rgba(41, 5, 95, 0.5)',
+              fontFamily: 'var(--font-heading)'
+            }}
+            onMouseEnter={(e) => {
+              if (allAnswered) e.target.style.background = 'var(--color-join-highlight)';
+            }}
+            onMouseLeave={(e) => {
+              if (allAnswered) e.target.style.background = 'var(--color-join)';
+            }}
+          >
+            Submit Quiz
+          </button>
+        )}
       </div>
 
       <style>{`

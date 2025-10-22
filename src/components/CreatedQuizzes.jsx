@@ -38,7 +38,7 @@ const CreatedQuizzes = () => {
               title: quizData.title || "Untitled Quiz",
               quizCode: quizData.quizCode,
               hashtag: quizData.hashtag || quizData.subject || "GENERAL",
-              // status: quizData.published ? "Published" : "Draft",
+              acceptingResponses: quizData.acceptingResponses ?? true,
               takenBy: uniqueUsers.size
             };
           })
@@ -115,7 +115,7 @@ const CreatedQuizzes = () => {
         </div>
 
         <div className="flex flex-col gap-4">
-          {createdQuizzes.map(({ id, title, quizCode, hashtag, status, takenBy }) => (
+          {createdQuizzes.map(({ id, title, quizCode, hashtag, acceptingResponses, takenBy }) => (
             <div
               key={id}
               className="bg-accent rounded-xl p-6 flex justify-between items-center cursor-pointer transition-transform duration-300 ease-out relative"
@@ -131,10 +131,16 @@ const CreatedQuizzes = () => {
                   style={{ fontFamily: "var(--font-heading)" }}>
                   {title}
                 </h3>
-                <p className="text-sm text-white/70 mb-2 italic"
-                  style={{ fontFamily: "var(--font-main)" }}>
-                  {status}
-                </p>
+                <div className="flex items-center gap-2 mb-2">
+                  <p className="text-sm text-white/70 italic"
+                    style={{ fontFamily: "var(--font-main)" }}>
+                    {acceptingResponses ? 'Accepting Responses' : 'Stopped'}
+                  </p>
+                  <div 
+                    className="w-2 h-2 rounded-full"
+                    style={{ background: acceptingResponses ? '#4CAF50' : '#F44336' }}
+                  />
+                </div>
                 <p className="text-base text-main my-1 font-semibold"
                   style={{ fontFamily: "var(--font-main)" }}>
                   #{quizCode}
@@ -157,7 +163,7 @@ const CreatedQuizzes = () => {
                   strokeLinejoin="round"
                   className="transition-transform duration-300 ease-out"
                   style={{
-                    transform: hoveredCard === id ? "rotate(-45deg)" : "rotate(0deg)"
+                    transform: hoveredCard === id ? "rotate(-90deg)" : "rotate(0deg)"
                   }}
                 >
                   <line x1="5" y1="12" x2="19" y2="12"></line>

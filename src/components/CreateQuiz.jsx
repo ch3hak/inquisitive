@@ -4,10 +4,12 @@ import { collection, doc, setDoc, addDoc } from "firebase/firestore";
 import { db, auth, timestamp } from '../utils/firebase';
 import { generateQuizCode } from '../utils/quizCode';
 import Header from './Header';
+import QuizFront from './QuizFront';
 
 const CreateQuiz = () => {
   const navigate = useNavigate();
-  const [title, setTitle] = useState("");
+  const [showFront, setShowFront] = useState(true);
+  const [frontData, setFrontData] = useState(null);
   const [questions, setQuestions] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(null);
   const [hoveredQuestionIndex, setHoveredQuestionIndex] = useState(null);
@@ -16,6 +18,11 @@ const CreateQuiz = () => {
   const [questionText, setQuestionText] = useState("");
   const [options, setOptions] = useState(["", ""]);
   const [correct, setCorrect] = useState(0);
+
+  const handleFrontProceed = (data) => {
+    setFrontData(data);
+    setShowFront(false);
+  };
 
   const handleAddQuestion = () => {
     setEditingQuestion(questions.length);
@@ -103,19 +110,28 @@ const CreateQuiz = () => {
   };
 
   const onSaveQuiz = async () => {
-    if (!title.trim() || questions.length === 0) {
+    if (!frontData?.title?.trim() || questions.length === 0) {
       alert("Add a title and at least one question.");
       return;
     }
 
     try {
       const quizCode = await generateQuizCode(8);
+      const totalDurationInSeconds = (frontData.duration.hours * 3600) + 
+                                     (frontData.duration.minutes * 60) + 
+                                     frontData.duration.seconds;
+
       const quizData = {
-        title,
+        title: frontData.title,
         quizCode,
         createdBy: auth.currentUser.uid,
         createdName: auth.currentUser.displayName,
         createdAt: timestamp(),
+        bannerImage: frontData.bannerImage || null,
+        duration: totalDurationInSeconds,
+        startDate: frontData.startDate || null,
+        startTime: frontData.startTime || '00:00',
+        acceptingResponses: true
       };
 
       const quizRef = await addDoc(collection(db, 'quizzes'), quizData);
@@ -140,9 +156,10 @@ const CreateQuiz = () => {
     }
   };
 
-  // -------------------
-  // EDIT / CREATE QUESTION VIEW (styled like QuizPage)
-  // -------------------
+  if (showFront) {
+    return <QuizFront mode="create" onProceed={handleFrontProceed} />;
+  }
+
   if (currentQuestionIndex !== null) {
     return (
       <div className="min-h-screen flex flex-col" style={{ background: 'var(--color-create)' }}>
@@ -153,7 +170,6 @@ const CreateQuiz = () => {
                 Q{currentQuestionIndex + 1}.
               </h2>
 
-              {/* QUESTION INPUT (large, centered like QuizPage heading) */}
               <input
                 type="text"
                 placeholder="Enter question..."
@@ -166,7 +182,6 @@ const CreateQuiz = () => {
           </div>
         </div>
 
-        {/* OPTIONS AREA (bottom panel resembling QuizPage) */}
         <div className="px-6 pb-6" style={{ background: 'var(--color-background)' }}>
           <div className="w-full max-w-md mx-auto space-y-3 pt-5 pb-5">
             {options.map((opt, index) => {
@@ -205,7 +220,6 @@ const CreateQuiz = () => {
                     style={{ fontFamily: 'var(--font-main)' }}
                   />
 
-                  {/* remove option button (if >2) */}
                   {options.length > 2 && (
                     <button
                       onClick={() => removeOption(index)}
@@ -295,19 +309,16 @@ const CreateQuiz = () => {
       
       <div className="max-w-md mx-auto px-4 py-8">
         <div className="text-center mb-12">
-          {title && (
-            <p className="text-sm mb-2 opacity-60" style={{ fontStyle: 'italic' }}>
-              By: {auth.currentUser?.displayName}
-            </p>
+          {frontData?.title && (
+            <>
+              <p className="text-sm mb-2 opacity-60" style={{ fontStyle: 'italic' }}>
+                By: {auth.currentUser?.displayName}
+              </p>
+              <h1 className="text-4xl mb-6" style={{ fontFamily: 'var(--font-heading)', textTransform: 'uppercase' }}>
+                {frontData.title}
+              </h1>
+            </>
           )}
-          <input
-            type="text"
-            placeholder="Enter Quiz Title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            className="w-full bg-transparent text-white text-center outline-none placeholder-white placeholder-opacity-40 text-4xl mb-6"
-            style={{ fontFamily: 'var(--font-heading)', border: 'none' }}
-          />
         </div>
 
         <div className="space-y-3 mb-4">
