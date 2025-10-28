@@ -36,6 +36,20 @@ const Login = () => {
     if (message) return;
 
     if (!isSignInForm) {
+
+      const nameValue = name.current.value.trim();
+      // const emailValue = email.current.value.trim();
+      // const passwordValue = password.current.value;
+
+      console.log(" Name Input Value:", nameValue);
+      console.log(" Email:", email.current.value);
+      
+      if (!nameValue || nameValue.trim() === "") {
+        setErrorMessage("Please enter your name");
+        return;
+      }
+
+
       createUserWithEmailAndPassword(
         auth,
         email.current.value,
@@ -43,26 +57,31 @@ const Login = () => {
       )
         .then((userCredential) => {
           const user = userCredential.user;
+          console.log("User created:", user.uid);
           updateProfile(user, {
-            displayName: name.current.value,
-            photoURL: "https://example.com/jane-q-user/profile.jpg"
+            displayName: nameValue,
+            photoURL: "default-avatar"
           })
             .then(async() => {
               await user.reload();
               const updatedUser = auth.currentUser;
+
+
 
               // const { uid, email, displayName, photoURL } = auth.currentUser;
               dispatch(
                 addUser({
                   uid: updatedUser.uid,
                   email: updatedUser.email,
-                  displayName: updatedUser.displayName,
-                  photoURL: updatedUser.photoURL,
+                  displayName: nameValue,
+                  photoURL: updatedUser.photoURL
                 })
               );
+              console.log("Dispatched to Redux", nameValue);
               navigate("/home");
             })
             .catch((error) => {
+              console.error(" Profile update error:", error);
               setErrorMessage(error.message);
             });
         })

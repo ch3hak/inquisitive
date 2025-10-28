@@ -26,6 +26,65 @@ const InsightsPage = () => {
   return (
     <div className="min-h-screen bg-[var(--color-background)] flex flex-col relative overflow-hidden">
       <Header />
+      <div className="fixed inset-0 overflow-hidden pointer-events-none" style={{ zIndex: 0 }}>
+        <div className="absolute top-0">
+          <svg width="350" height="500" viewBox="0 0 261 376" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+            <g filter="url(#filter0_f_502_54)">
+              <ellipse cx="57.782" cy="187.682" rx="112" ry="75" transform="rotate(33.0969 57.782 187.682)" fill="#29055F"/>
+            </g>
+            <defs>
+              <filter id="filter0_f_502_54" x="-144.62" y="0" width="404.805" height="375.364" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
+                <feFlood floodOpacity="0" result="BackgroundImageFix"/>
+                <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+                <feGaussianBlur stdDeviation="50" result="effect1_foregroundBlur_502_54"/>
+              </filter>
+            </defs>
+          </svg>
+        </div>
+
+        <div className="absolute left-1/2 -translate-x-1/2 -top-10">
+          <svg width="500" height="450" viewBox="0 0 392 356" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+            <g filter="url(#filter0_f_502_55)">
+              <ellipse cx="188.817" cy="177.553" rx="112" ry="63.671" transform="rotate(-28.7201 188.817 177.553)" fill="#5A84FF"/>
+            </g>
+            <defs>
+              <filter id="filter0_f_502_55" x="-14.0865" y="0" width="405.808" height="355.106" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
+                <feFlood floodOpacity="0" result="BackgroundImageFix"/>
+                <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+                <feGaussianBlur stdDeviation="50" result="effect1_foregroundBlur_502_55"/>
+              </filter>
+            </defs>
+          </svg>
+        </div>
+
+        <div className="absolute -right-20 top-0">
+          <svg width="350" height="480" viewBox="0 0 280 361" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+            <g filter="url(#filter0_ddf_502_57)">
+              <ellipse cx="200.674" cy="180.426" rx="112" ry="63.671" transform="rotate(32.2254 200.674 180.426)" fill="#06007B"/>
+            </g>
+            <defs>
+              <filter id="filter0_ddf_502_57" x="0" y="0" width="401.349" height="360.851" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
+                <feFlood floodOpacity="0" result="BackgroundImageFix"/>
+                <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                <feOffset dy="4"/>
+                <feGaussianBlur stdDeviation="2"/>
+                <feComposite in2="hardAlpha" operator="out"/>
+                <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+                <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_502_57"/>
+                <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                <feOffset dy="4"/>
+                <feGaussianBlur stdDeviation="2"/>
+                <feComposite in2="hardAlpha" operator="out"/>
+                <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+                <feBlend mode="normal" in2="effect1_dropShadow_502_57" result="effect2_dropShadow_502_57"/>
+                <feBlend mode="normal" in="SourceGraphic" in2="effect2_dropShadow_502_57" result="shape"/>
+                <feGaussianBlur stdDeviation="50" result="effect3_foregroundBlur_502_57"/>
+              </filter>
+            </defs>
+          </svg>
+        </div>
+      </div>
+
 
       <div className="absolute top-[30%] left-1/2 -translate-x-1/2 w-[600px] h-[600px] rounded-full pointer-events-none z-0"
         style={{

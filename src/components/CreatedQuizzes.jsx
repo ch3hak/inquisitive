@@ -114,9 +114,8 @@ const CreatedQuizzes = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[var(--color-background)] flex flex-col relative overflow-hidden">
+    <div className="min-h-screen bg-[var(--color-background)] ">
       <Header />
-
       <div className="absolute top-[30%] left-1/2 -translate-x-1/2 w-[600px] h-[600px] rounded-full pointer-events-none z-0"
         style={{
           background: "radial-gradient(circle, rgba(90, 132, 255, 0.25) 0%, transparent 70%)",
@@ -124,7 +123,7 @@ const CreatedQuizzes = () => {
         }}
       />
 
-      <div className="max-w-[600px] mx-auto px-4 py-8 relative z-10 w-full">
+      <div className="max-w-[600px] mx-auto px-4 pb-8 relative z-10 w-full">
         <div className="flex items-center gap-4 mb-8">
           <svg 
             width="60" 
@@ -161,8 +160,8 @@ const CreatedQuizzes = () => {
                   style={{ fontFamily: "var(--font-heading)" }}>
                   {title}
                 </h3>
-                <div className="flex items-center gap-2 mb-2">
-                  <p className="text-sm text-white/70 italic"
+                <div className="flex justify-center gap-2 mb-2">
+                  <p className= "text-sm text-white/70 italic"
                     style={{ fontFamily: "var(--font-main)" }}>
                     {acceptingResponses ? 'Accepting Responses' : 'Stopped'}
                   </p>

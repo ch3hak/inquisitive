@@ -66,7 +66,7 @@ const QuizFront = ({ mode, onProceed, quizData }) => {
         <Header />
         
         {quizData?.bannerImage && (
-          <div className="w-full mt-4 h-30 flex-shrink-0 relative" style={{ background: bannerImage ? 'transparent' : '#CCC'}}>
+          <div className="w-full h-30 flex-shrink-0 relative" style={{ background: bannerImage ? 'transparent' : '#CCC'}}>
             <img 
               src={quizData.bannerImage} 
               alt="Quiz Banner" 
@@ -77,7 +77,7 @@ const QuizFront = ({ mode, onProceed, quizData }) => {
         )}
         
         <div className="flex-1 flex flex-col px-6 py-6 overflow-hidden">
-          <div className="text-center text-white mb-6">
+          <div className="text-center text-white mb-5">
             <p className="text-sm dm-sans-italic text-white opacity-80">
               title
             </p>
@@ -96,7 +96,7 @@ const QuizFront = ({ mode, onProceed, quizData }) => {
             </p>
           </div>
   
-          <div className="space-y-8 mb-16 text-white">
+          <div className="space-y-8 mb-10 text-white">
             <div className="flex justify-between items-baseline">
               <p className="text-2xl dm-sans-italic text-white" style={{ fontFamily: 'var(--font-heading)' }}>
                 Time
@@ -144,7 +144,7 @@ const QuizFront = ({ mode, onProceed, quizData }) => {
               onClick={handleProceed}
               className="flex-1 px-2 py-2 rounded-full transition-all text-white"
               style={{ 
-                background: '#5A2D8C',
+                background: 'var(--color-join)',
                 color: 'white',
                 border: 'none'
               }}

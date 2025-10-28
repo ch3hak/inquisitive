@@ -80,7 +80,7 @@ const JoinedQuizzes = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[var(--color-background)] flex flex-col relative overflow-hidden">
+    <div className="min-h-screen bg-[var(--color-background)]">
       <Header />
 
       <div className="absolute top-[30%] left-1/2 -translate-x-1/2 w-[600px] h-[600px] rounded-full pointer-events-none z-0"
@@ -90,7 +90,7 @@ const JoinedQuizzes = () => {
         }}
       />
 
-      <div className="max-w-[600px] mx-auto px-4 py-8 relative z-10 w-full">
+      <div className="max-w-[600px] mx-auto px-4 pb-8 relative z-10 w-full">
         <div className="flex items-center gap-4 mb-8">
           <svg 
             width="60" 

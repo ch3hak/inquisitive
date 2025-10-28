@@ -18,7 +18,10 @@ const Header = () => {
     });
   }
   return (
-    <div className="bg-transparent flex items-center justify-between pt-6 px-6">      
+    <div className="sticky top-0 z-50 bg-transparent flex items-center justify-between pt-6 px-6 pb-4" style={{
+      background: 'linear-gradient(to bottom, rgba(25, 16, 35, 1) 0%, rgba(25, 16, 35, 0.95) 50%, rgba(25, 16, 35, 0) 100%)',
+      backdropFilter: 'blur(12px)'
+    }}>      
       <img 
         src={logo}
         alt="Quiz App Logo"
