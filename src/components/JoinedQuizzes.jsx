@@ -101,7 +101,7 @@ const JoinedQuizzes = () => {
           >
             <path 
               d="M0 0 L60 0 L30 40 L45 40 L0 80 L20 45 L0 45 Z" 
-              fill="#5A84FF"
+              fill="var(--color-join)"
             />
           </svg>
           <h1 className="text-5xl text-main m-0 font-normal"

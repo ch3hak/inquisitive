@@ -5,6 +5,7 @@ import { db, auth, timestamp } from '../utils/firebase';
 import { generateQuizCode } from '../utils/quizCode';
 import Header from './Header';
 import QuizFront from './QuizFront';
+import QuizCodeModal from './QuizCodeModal';
 
 const CreateQuiz = () => {
   const navigate = useNavigate();
@@ -12,7 +13,9 @@ const CreateQuiz = () => {
   const [frontData, setFrontData] = useState(null);
   const [questions, setQuestions] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(null);
-  const [hoveredQuestionIndex, setHoveredQuestionIndex] = useState(null);
+  const [expandedQuestionIndex, setExpandedQuestionIndex] = useState(null);
+  const [showCodeModal, setShowCodeModal] = useState(false);
+  const [createdQuizCode, setCreatedQuizCode] = useState('');
 
   const [editingQuestion, setEditingQuestion] = useState(null);
   const [questionText, setQuestionText] = useState("");
@@ -75,6 +78,7 @@ const CreateQuiz = () => {
   const handleDeleteQuestion = (index) => {
     const updatedQuestions = questions.filter((_, i) => i !== index);
     setQuestions(updatedQuestions);
+    setExpandedQuestionIndex(null);
   };
 
   const handleOptionChange = (index, value) => {
@@ -146,11 +150,24 @@ const CreateQuiz = () => {
         })
       );
 
-      alert(`Quiz created! Code = ${quizCode}`);
-      navigate(`/quiz/${quizCode}`);
+      setCreatedQuizCode(quizCode);
+      setShowCodeModal(true);
     } catch(err) {
       console.error(err);
       alert("Error saving quiz: " + err.message);
+    }
+  };
+
+  const handleCloseModal = () => {
+    setShowCodeModal(false);
+    navigate(`/quiz/${createdQuizCode}`);
+  };
+
+  const handleCardClick = (index) => {
+    if (expandedQuestionIndex === index) {
+      handleQuestionClick(index);
+    } else {
+      setExpandedQuestionIndex(index);
     }
   };
 
@@ -161,6 +178,8 @@ const CreateQuiz = () => {
   if (currentQuestionIndex !== null) {
     return (
       <div className="min-h-screen flex flex-col" style={{ background: 'var(--color-create)' }}>
+        <Header />
+        
         <div className="flex-1 flex flex-col items-center justify-center px-6 py-12">
           <div className="w-full max-w-md space-y-8">
             <div className="text-center text-white">
@@ -173,18 +192,18 @@ const CreateQuiz = () => {
                 placeholder="Enter question..."
                 value={questionText}
                 onChange={(e) => setQuestionText(e.target.value)}
-                className="w-full bg-transparent text-white text-center text-xl dm-sans-regular px-4 py-3 rounded-md outline-none"
-                style={{ border: 'none', fontFamily: 'var(--font-main)' }}
+                className="w-full bg-transparent text-white text-center text-xl dm-sans-regular px-4 py-3 rounded-md outline-none placeholder-white"
+                style={{ border: 'none', fontFamily: 'var(--font-main)', opacity: questionText ? 1 : 0.4 }}
               />
             </div>
           </div>
         </div>
 
-        <div className="px-6 pb-6" style={{ background: 'var(--color-background)' }}>
+        <div className="px-2 pb-6 w-full" style={{ background: 'var(--color-background)' }}>
           <div className="w-full max-w-md mx-auto space-y-3 pt-5 pb-5">
             {options.map((opt, index) => {
               const isCorrect = correct === index;
-              const baseBg = isCorrect ? 'var(--color-create)' : 'var(--color-create-highlight)';
+              const baseBg = isCorrect ? 'var(--color-create-highlight)' : 'var(--color-create)';
               return (
                 <div
                   key={index}
@@ -193,12 +212,6 @@ const CreateQuiz = () => {
                     background: baseBg,
                     color: 'white',
                     alignItems: 'center'
-                  }}
-                  onMouseEnter={(e) => {
-                    if (!isCorrect) e.currentTarget.style.background = 'var(--color-create-highlight)';
-                  }}
-                  onMouseLeave={(e) => {
-                    if (!isCorrect) e.currentTarget.style.background = 'var(--color-create)';
                   }}
                 >
                   <input
@@ -214,7 +227,7 @@ const CreateQuiz = () => {
                     placeholder={`Option ${index + 1}`}
                     value={opt}
                     onChange={(e) => handleOptionChange(index, e.target.value)}
-                    className="flex-1 bg-transparent text-white outline-none placeholder-white placeholder-opacity-60"
+                    className="flex-1 bg-transparent text-white outline-none placeholder-white placeholder-opacity-40"
                     style={{ fontFamily: 'var(--font-main)' }}
                   />
 
@@ -223,8 +236,6 @@ const CreateQuiz = () => {
                       onClick={() => removeOption(index)}
                       className="w-9 h-9 rounded-full flex items-center justify-center transition-all flex-shrink-0"
                       style={{ background: 'rgba(255, 255, 255, 0.12)' }}
-                      onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.2)'}
-                      onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.12)'}
                     >
                       <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                         <path d="M5 12h14"/>
@@ -240,8 +251,6 @@ const CreateQuiz = () => {
                 onClick={addOption}
                 className="w-full rounded-3xl p-4 transition-all flex items-center justify-center"
                 style={{ background: 'rgba(90, 132, 255, 0.2)' }}
-                onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(90, 132, 255, 0.3)'}
-                onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(90, 132, 255, 0.2)'}
               >
                 <span className="text-2xl">+</span>
               </button>
@@ -302,130 +311,139 @@ const CreateQuiz = () => {
   }
 
   return (
-    <div className="min-h-screen text-white" style={{ background: 'var(--color-background)', fontFamily: 'var(--font-main)' }}>
-      <Header />
-      
-      <div className="max-w-md mx-auto px-4 py-8">
-        <div className="text-center mb-12">
-          {frontData?.title && (
-            <>
-              <p className="text-sm mb-2 opacity-60" style={{ fontStyle: 'italic' }}>
-                By: {auth.currentUser?.displayName}
-              </p>
-              <h1 className="text-4xl mb-6" style={{ fontFamily: 'var(--font-heading)', textTransform: 'uppercase' }}>
-                {frontData.title}
-              </h1>
-            </>
-          )}
-        </div>
-
-        <div className="space-y-3 mb-4">
-          {questions.map((q, index) => (
-            <div
-              key={index}
-              className="rounded-3xl overflow-hidden transition-all cursor-pointer"
-              style={{ 
-                background: 'var(--color-create)',
-                height: hoveredQuestionIndex === index ? '100px' : '70px'
-              }}
-              onMouseEnter={() => setHoveredQuestionIndex(index)}
-              onMouseLeave={() => setHoveredQuestionIndex(null)}
-            >
-              <div className="h-full p-4 flex items-center justify-between gap-3">
-                {hoveredQuestionIndex === index && (
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleDeleteQuestion(index);
-                    }}
-                    className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 transition-all"
-                    style={{ 
-                      background: 'rgba(255, 255, 255, 0.2)',
-                      animation: 'fadeIn 0.3s ease-out'
-                    }}
-                    onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.3)'}
-                    onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.2)'}
-                  >
-                    <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <path d="M5 12h14"/>
-                    </svg>
-                  </button>
-                )}
-                
-                <div className="flex-1" onClick={() => handleQuestionClick(index)}>
-                  <h3 className="text-2xl" style={{ fontFamily: 'var(--font-heading)' }}>
-                    Q{index + 1}.
-                  </h3>
-                  {hoveredQuestionIndex === index && (
-                    <p className="text-sm mt-1 opacity-90 truncate" style={{ animation: 'fadeIn 0.3s ease-out', fontFamily: 'var(--font-main)' }}>
-                      {q.question}
-                    </p>
-                  )}
-                </div>
-                
-                <button
-                  onClick={() => handleQuestionClick(index)}
-                  className="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 transition-all"
-                  style={{ 
-                    background: 'rgba(255, 255, 255, 0.2)',
-                    border: '2px solid white'
-                  }}
-                >
-                  <svg 
-                    className="w-6 h-6 transition-transform duration-300" 
-                    viewBox="0 0 24 24" 
-                    fill="none" 
-                    stroke="currentColor" 
-                    strokeWidth="2"
-                    style={{ transform: hoveredQuestionIndex === index ? 'rotate(-90deg)' : 'rotate(0deg)' }}
-                  >
-                    <path d="M5 12h14M12 5l7 7-7 7"/>
-                  </svg>
-                </button>
-              </div>
+    <>
+      <div className="h-screen overflow-hidden text-white flex flex-col" style={{ background: 'var(--color-background)', fontFamily: 'var(--font-main)' }}>
+        <Header />
+        
+        <div 
+          className="flex-1 overflow-y-auto px-4 py-8"
+          onClick={(e) => {
+            if (!e.target.closest('.question-card')) {
+              setExpandedQuestionIndex(null);
+            }
+          }}
+        >
+          <div className="max-w-md mx-auto">
+            <div className="text-center mb-12">
+              {frontData?.title && (
+                <>
+                  <p className="text-sm mb-2 opacity-60" style={{ fontStyle: 'italic' }}>
+                    By: {auth.currentUser?.displayName}
+                  </p>
+                  <h1 className="text-4xl mb-6" style={{ fontFamily: 'var(--font-heading)', textTransform: 'uppercase' }}>
+                    {frontData.title}
+                  </h1>
+                </>
+              )}
             </div>
-          ))}
+
+            <div className="space-y-3 mb-4">
+              {questions.map((q, index) => (
+                <div
+                  key={index}
+                  className="question-card rounded-3xl overflow-hidden transition-all cursor-pointer"
+                  style={{ 
+                    background: 'var(--color-create)',
+                    height: expandedQuestionIndex === index ? '100px' : '70px'
+                  }}
+                  onClick={() => handleCardClick(index)}
+                >
+                  <div className="h-full p-4 flex items-center justify-between gap-3">
+                    {expandedQuestionIndex === index && (
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleDeleteQuestion(index);
+                        }}
+                        className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 transition-all"
+                        style={{ 
+                          background: 'rgba(255, 255, 255, 0.2)',
+                          animation: 'fadeIn 0.3s ease-out'
+                        }}
+                      >
+                        <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <path d="M5 12h14"/>
+                        </svg>
+                      </button>
+                    )}
+                    
+                    <div className="flex-1">
+                      <h3 className="text-2xl" style={{ fontFamily: 'var(--font-heading)' }}>
+                        Q{index + 1}.
+                      </h3>
+                      {expandedQuestionIndex === index && (
+                        <p className="text-sm mt-1 opacity-90 truncate" style={{ animation: 'fadeIn 0.3s ease-out', fontFamily: 'var(--font-main)' }}>
+                          {q.question}
+                        </p>
+                      )}
+                    </div>
+                    
+                    <div className="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 transition-all"
+                      style={{ 
+                        background: 'rgba(255, 255, 255, 0.2)',
+                        border: '2px solid white'
+                      }}
+                    >
+                      <svg 
+                        className="w-6 h-6 transition-transform duration-300" 
+                        viewBox="0 0 24 24" 
+                        fill="none" 
+                        stroke="currentColor" 
+                        strokeWidth="2"
+                        style={{ transform: expandedQuestionIndex === index ? 'rotate(-90deg)' : 'rotate(0deg)' }}
+                      >
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <button
+              onClick={handleAddQuestion}
+              className="w-full rounded-3xl p-6 mb-4 transition-all flex items-center justify-center"
+              style={{ background: 'rgba(90, 132, 255, 0.3)' }}
+            >
+              <span className="text-4xl">+</span>
+            </button>
+
+            <button
+              onClick={onSaveQuiz}
+              className="w-full rounded-3xl p-6 transition-all"
+              style={{ background: 'var(--color-create)' }}
+            >
+              <span className="text-xl" style={{ fontFamily: 'var(--font-heading)' }}>
+                Create Quiz
+              </span>
+            </button>
+          </div>
         </div>
 
-        <button
-          onClick={handleAddQuestion}
-          className="w-full rounded-3xl p-6 mb-4 transition-all flex items-center justify-center"
-          style={{ background: 'rgba(90, 132, 255, 0.3)' }}
-          onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(90, 132, 255, 0.4)'}
-          onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(90, 132, 255, 0.3)'}
-        >
-          <span className="text-4xl">+</span>
-        </button>
-
-        <button
-          onClick={onSaveQuiz}
-          className="w-full rounded-3xl p-6 transition-all"
-          style={{ background: 'var(--color-create)' }}
-          onMouseEnter={(e) => e.currentTarget.style.background = '#4a74ef'}
-          onMouseLeave={(e) => e.currentTarget.style.background = 'var(--color-create)'}
-        >
-          <span className="text-xl" style={{ fontFamily: 'var(--font-heading)' }}>
-            Create Quiz
-          </span>
-        </button>
+        <style>{`
+          @keyframes fadeIn {
+            from {
+              opacity: 0;
+              transform: translateY(10px);
+            }
+            to {
+              opacity: 1;
+              transform: translateY(0);
+            }
+          }
+          input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+          }
+        `}</style>
       </div>
 
-      <style>{`
-        @keyframes fadeIn {
-          from {
-            opacity: 0;
-            transform: translateY(10px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-        input::placeholder {
-          color: rgba(255, 255, 255, 0.6);
-        }
-      `}</style>
-    </div>
+      {showCodeModal && (
+        <QuizCodeModal 
+          quizCode={createdQuizCode} 
+          onClose={handleCloseModal}
+        />
+      )}
+    </>
   );
 };
 

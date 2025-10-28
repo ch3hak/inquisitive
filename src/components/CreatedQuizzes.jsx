@@ -11,6 +11,7 @@ const CreatedQuizzes = () => {
   const [createdQuizzes, setCreatedQuizzes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [hoveredCard, setHoveredCard] = useState(null);
+  const [copiedCode, setCopiedCode] = useState(null);
 
   useEffect(() => {
     if (!user) return;
@@ -54,6 +55,35 @@ const CreatedQuizzes = () => {
 
     loadCreatedQuizzes();
   }, [user]);
+
+  const handleCopyCode = async (e, quizCode) => {
+    e.stopPropagation(); 
+    
+    try {
+      await navigator.clipboard.writeText(quizCode);
+      setCopiedCode(quizCode);
+      
+      setTimeout(() => {
+        setCopiedCode(null);
+      }, 2000);
+    } catch (err) {
+      console.error('Failed to copy:', err);
+      const textArea = document.createElement('textarea');
+      textArea.value = quizCode;
+      textArea.style.position = 'fixed';
+      textArea.style.left = '-999999px';
+      document.body.appendChild(textArea);
+      textArea.select();
+      try {
+        document.execCommand('copy');
+        setCopiedCode(quizCode);
+        setTimeout(() => setCopiedCode(null), 2000);
+      } catch (err) {
+        console.error('Fallback copy failed:', err);
+      }
+      document.body.removeChild(textArea);
+    }
+  };
 
   if (loading) {
     return (
@@ -141,10 +171,59 @@ const CreatedQuizzes = () => {
                     style={{ background: acceptingResponses ? '#4CAF50' : '#F44336' }}
                   />
                 </div>
-                <p className="text-base text-main my-1 font-semibold"
-                  style={{ fontFamily: "var(--font-main)" }}>
-                  #{quizCode}
-                </p>
+                
+                <div 
+                  className="inline-flex items-center gap-2 group cursor-pointer px-3 py-1 rounded-lg transition-all"
+                  style={{ 
+                    fontFamily: "var(--font-main)",
+                    background: copiedCode === quizCode ? 'rgba(76, 175, 80, 0.2)' : 'rgba(255, 255, 255, 0.1)'
+                  }}
+                  onClick={(e) => handleCopyCode(e, quizCode)}
+                  onTouchStart={(e) => {
+                    const timer = setTimeout(() => {
+                      handleCopyCode(e, quizCode);
+                    }, 500);
+                    e.currentTarget.dataset.timer = timer;
+                  }}
+                  onTouchEnd={(e) => {
+                    clearTimeout(e.currentTarget.dataset.timer);
+                  }}
+                  title="Click to copy quiz code"
+                >
+                  <span className="text-base text-main font-semibold">
+                    #{quizCode}
+                  </span>
+                  {copiedCode === quizCode ? (
+                    <svg 
+                      width="16" 
+                      height="16" 
+                      viewBox="0 0 24 24" 
+                      fill="none" 
+                      stroke="#4CAF50" 
+                      strokeWidth="2.5"
+                      strokeLinecap="round" 
+                      strokeLinejoin="round"
+                    >
+                      <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                  ) : (
+                    <svg 
+                      width="16" 
+                      height="16" 
+                      viewBox="0 0 24 24" 
+                      fill="none" 
+                      stroke="currentColor" 
+                      strokeWidth="2"
+                      strokeLinecap="round" 
+                      strokeLinejoin="round"
+                      className="opacity-0 group-hover:opacity-100 transition-opacity"
+                    >
+                      <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                    </svg>
+                  )}
+                </div>
+
                 <p className="text-base text-main mt-2"
                   style={{ fontFamily: "var(--font-main)" }}>
                   Quiz Taken By : <span className="font-semibold">{takenBy}</span>
