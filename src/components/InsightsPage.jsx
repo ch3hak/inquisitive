@@ -25,9 +25,7 @@ const InsightsPage = () => {
 
   return (
     <div className="min-h-screen bg-[var(--color-background)] flex flex-col relative overflow-hidden">
-      {/* Background Blurs */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none" style={{ zIndex: 0 }}>
-        {/* Left blur - Purple */}
         <div className="absolute -left-10 lg:left-0 top-0 lg:top-10">
           <svg width="350" height="500" viewBox="0 0 261 376" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" className="lg:hidden">
             <g filter="url(#filter0_f_502_54)">
@@ -41,7 +39,6 @@ const InsightsPage = () => {
               </filter>
             </defs>
           </svg>
-          {/* Desktop larger blur */}
           <svg width="600" height="700" viewBox="0 0 400 550" fill="none" xmlns="http://www.w3.org/2000/svg" className="hidden lg:block">
             <g filter="url(#filter0_f_desktop_1)">
               <ellipse cx="150" cy="275" rx="200" ry="140" transform="rotate(33 150 275)" fill="var(--color-join-highlight)" />
@@ -56,7 +53,6 @@ const InsightsPage = () => {
           </svg>
         </div>
 
-        {/* Center blur - Blue */}
         <div className="absolute left-1/2 -translate-x-1/2 -top-10 lg:top-5">
           <svg width="500" height="450" viewBox="0 0 392 356" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" className="lg:hidden">
             <g filter="url(#filter0_f_502_55)">
@@ -70,7 +66,7 @@ const InsightsPage = () => {
               </filter>
             </defs>
           </svg>
-          {/* Desktop larger blur */}
+
           <svg
             width="1600"
             height="1200"
@@ -97,7 +93,6 @@ const InsightsPage = () => {
 
         </div>
 
-        {/* Right blur - Dark Blue */}
         <div className="absolute -right-10 lg:right-0 top-0 lg:top-10">
           <svg width="350" height="480" viewBox="0 0 280 361" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" className="lg:hidden">
             <g filter="url(#filter0_ddf_502_57)">
@@ -123,7 +118,7 @@ const InsightsPage = () => {
               </filter>
             </defs>
           </svg>
-          {/* Desktop larger blur */}
+
           <svg width="600" height="700" viewBox="0 0 400 550" fill="none" xmlns="http://www.w3.org/2000/svg" className="hidden lg:block">
             <g filter="url(#filter0_f_desktop_3)">
               <ellipse cx="280" cy="250" rx="200" ry="120" transform="rotate(30 250 275)" fill="var(--color-insights-blue)"/>

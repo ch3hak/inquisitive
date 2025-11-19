@@ -151,10 +151,10 @@ const Home = () => {
 
         <div className="w-full max-w-sm lg:max-w-4xl">
           <div
-            className="join-card rounded-3xl overflow-hidden transition-all duration-300 ease-out cursor-pointer relative mb-4 lg:mb-6"
+            className="rounded-3xl overflow-hidden transition-all duration-300 ease-out cursor-pointer relative mb-4 lg:mb-6 lg:pb-40"
             style={{ 
               background: showInput ? 'var(--color-join-highlight)' : (hoveredCard === 'join' ? 'var(--color-join-highlight)' : 'var(--color-join)'),
-              height: showInput ? '200px' : '140px'
+              height: showInput ? 'x' : '140px'
             }}
             onClick={() => !showInput && setShowInput(true)}
             onMouseEnter={() => setHoveredCard('join')}
@@ -186,8 +186,8 @@ const Home = () => {
               </div>
               
               {showInput && (
-                <div className="flex items-center gap-3 lg:gap-5 lg:justify-end" style={{ animation: 'fadeIn 0.3s ease-out' }}>
-                  <div className="flex-1 lg:flex-none lg:w-80 flex items-center gap-2 rounded-xl px-4 lg:px-5 py-3" style={{ background: 'rgba(255, 255, 255, 0.15)', filter: 'drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2))' }}>
+                <div className="flex  items-center gap-3 lg:gap-5 lg:justify-end" style={{ animation: 'fadeIn 0.3s ease-out' }}>
+                  <div className="flex-1 flex-none lg:w-80 flex items-center gap-2 rounded-xl px-4 lg:px-5 py-3" style={{ background: 'rgba(255, 255, 255, 0.15)', filter: 'drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2))' }}>
                     <span className="text-sm lg:text-base opacity-70">#</span>
                     <input
                       type="text"

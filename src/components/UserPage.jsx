@@ -31,7 +31,6 @@ const UserPage = () => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    // Check file size (max 500KB)
     if (file.size > 500 * 1024) {
       alert("Image too large! Please choose an image under 500KB.");
       return;
@@ -44,7 +43,6 @@ const UserPage = () => {
       const base64String = reader.result;
       
       try {
-        // Save to Firestore instead of Firebase Auth
         await setDoc(doc(db, "users", auth.currentUser.uid), {
           profilePicture: base64String,
           email: auth.currentUser.email,
@@ -73,7 +71,6 @@ const UserPage = () => {
       try {
         const uid = user.uid;
 
-        // Load profile picture from Firestore
         const userDocSnap = await getDoc(doc(db, "users", uid));
         if (userDocSnap.exists() && userDocSnap.data().profilePicture) {
           setProfilePicture(userDocSnap.data().profilePicture);
@@ -118,7 +115,6 @@ const UserPage = () => {
       <Header/>
       
       <div className="flex flex-col items-center mt-8 px-6">
-        {/* Profile Picture with Upload */}
         <div className="relative mb-8">
           <div className="w-56 h-56 rounded-full bg-gray-700 overflow-hidden flex items-center justify-center border-4 border-gray-600">
             {profilePicture ? (
@@ -132,7 +128,6 @@ const UserPage = () => {
             )}
           </div>
           
-          {/* Upload Button */}
           <label 
             htmlFor="profile-upload" 
             className="absolute bottom-2 right-2 w-14 h-14 rounded-full flex items-center justify-center cursor-pointer transition-all hover:scale-110"
@@ -175,7 +170,7 @@ const UserPage = () => {
           </div>
         </div>
       </div>
-      <div className="w-full md:mx-auto max-w-sm md:max-w-2xl space-y-3">
+      <div className="w-full mb-12 md:mx-auto max-w-sm md:max-w-2xl space-y-3">
           <div
             className="join-card rounded-3xl overflow-hidden transition-all duration-300 ease-out cursor-pointer relative"
             style={{ 
