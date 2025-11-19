@@ -175,7 +175,7 @@ const UserPage = () => {
           </div>
         </div>
       </div>
-      <div className="w-full max-w-sm space-y-3">
+      <div className="w-full md:mx-auto max-w-sm md:max-w-2xl space-y-3">
           <div
             className="join-card rounded-3xl overflow-hidden transition-all duration-300 ease-out cursor-pointer relative"
             style={{ 

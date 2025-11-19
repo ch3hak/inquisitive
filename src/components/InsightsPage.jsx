@@ -25,10 +25,11 @@ const InsightsPage = () => {
 
   return (
     <div className="min-h-screen bg-[var(--color-background)] flex flex-col relative overflow-hidden">
-      <Header />
+      {/* Background Blurs */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none" style={{ zIndex: 0 }}>
-        <div className="absolute top-0">
-          <svg width="350" height="500" viewBox="0 0 261 376" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+        {/* Left blur - Purple */}
+        <div className="absolute -left-10 lg:left-0 top-0 lg:top-10">
+          <svg width="350" height="500" viewBox="0 0 261 376" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" className="lg:hidden">
             <g filter="url(#filter0_f_502_54)">
               <ellipse cx="57.782" cy="187.682" rx="112" ry="75" transform="rotate(33.0969 57.782 187.682)" fill="#29055F"/>
             </g>
@@ -40,12 +41,26 @@ const InsightsPage = () => {
               </filter>
             </defs>
           </svg>
+          {/* Desktop larger blur */}
+          <svg width="600" height="700" viewBox="0 0 400 550" fill="none" xmlns="http://www.w3.org/2000/svg" className="hidden lg:block">
+            <g filter="url(#filter0_f_desktop_1)">
+              <ellipse cx="150" cy="275" rx="200" ry="140" transform="rotate(33 150 275)" fill="var(--color-join-highlight)" />
+            </g>
+            <defs>
+              <filter id="filter0_f_desktop_1" x="-200" y="0" width="700" height="550" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
+                <feFlood floodOpacity="0" result="BackgroundImageFix"/>
+                <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+                <feGaussianBlur stdDeviation="60" result="effect1_foregroundBlur"/>
+              </filter>
+            </defs>
+          </svg>
         </div>
 
-        <div className="absolute left-1/2 -translate-x-1/2 -top-10">
-          <svg width="500" height="450" viewBox="0 0 392 356" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+        {/* Center blur - Blue */}
+        <div className="absolute left-1/2 -translate-x-1/2 -top-10 lg:top-5">
+          <svg width="500" height="450" viewBox="0 0 392 356" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" className="lg:hidden">
             <g filter="url(#filter0_f_502_55)">
-              <ellipse cx="188.817" cy="177.553" rx="112" ry="63.671" transform="rotate(-28.7201 188.817 177.553)" fill="#5A84FF"/>
+              <ellipse cx="188.817" cy="177.553" rx="112" ry="63.671" transform="rotate(-28.7201 188.817 177.553)" fill="var(--color-create)"/>
             </g>
             <defs>
               <filter id="filter0_f_502_55" x="-14.0865" y="0" width="405.808" height="355.106" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
@@ -55,10 +70,36 @@ const InsightsPage = () => {
               </filter>
             </defs>
           </svg>
+          {/* Desktop larger blur */}
+          <svg
+            width="1600"
+            height="1200"
+            viewBox="0 0 1600 1200"
+            fill="none"
+            className="hidden lg:block absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
+            style={{ zIndex: 0 }}
+          >
+            <ellipse
+              cx="800"
+              cy="600"
+              rx="250"
+              ry="350"
+              fill="var(--color-create)"
+              fillOpacity="0.92"
+              filter="url(#hugeBlur)"
+            />
+            <defs>
+              <filter id="hugeBlur" x="0" y="0" width="1600" height="1200" filterUnits="userSpaceOnUse">
+                <feGaussianBlur stdDeviation="140" />
+              </filter>
+            </defs>
+          </svg>
+
         </div>
 
-        <div className="absolute -right-20 top-0">
-          <svg width="350" height="480" viewBox="0 0 280 361" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+        {/* Right blur - Dark Blue */}
+        <div className="absolute -right-10 lg:right-0 top-0 lg:top-10">
+          <svg width="350" height="480" viewBox="0 0 280 361" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" className="lg:hidden">
             <g filter="url(#filter0_ddf_502_57)">
               <ellipse cx="200.674" cy="180.426" rx="112" ry="63.671" transform="rotate(32.2254 200.674 180.426)" fill="#06007B"/>
             </g>
@@ -82,17 +123,22 @@ const InsightsPage = () => {
               </filter>
             </defs>
           </svg>
+          {/* Desktop larger blur */}
+          <svg width="600" height="700" viewBox="0 0 400 550" fill="none" xmlns="http://www.w3.org/2000/svg" className="hidden lg:block">
+            <g filter="url(#filter0_f_desktop_3)">
+              <ellipse cx="280" cy="250" rx="200" ry="120" transform="rotate(30 250 275)" fill="var(--color-insights-blue)"/>
+            </g>
+            <defs>
+              <filter id="filter0_f_desktop_3" x="-100" y="0" width="700" height="550" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
+                <feFlood floodOpacity="0" result="BackgroundImageFix"/>
+                <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+                <feGaussianBlur stdDeviation="65" result="effect1_foregroundBlur"/>
+              </filter>
+            </defs>
+          </svg>
         </div>
       </div>
-
-
-      <div className="absolute top-[30%] left-1/2 -translate-x-1/2 w-[600px] h-[600px] rounded-full pointer-events-none z-0"
-        style={{
-          background: "radial-gradient(circle, rgba(6, 3, 76, 0.4) 0%, transparent 70%)",
-          filter: "blur(100px)"
-        }}
-      />
-
+      <Header />
       <div className="flex-1 flex flex-col items-center px-4 py-8 relative z-10">
         <h1 className="text-6xl text-main my-8 font-normal text-center pb-15"
           style={{ fontFamily: "var(--font-heading)" }}>

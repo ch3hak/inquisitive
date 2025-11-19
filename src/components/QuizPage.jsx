@@ -830,9 +830,9 @@ const QuizPage = () => {
   return (
     <>
     <Header/>
-    <div className="min-h-screen px-3 pt-5" style={{ background: 'var(--color-background)' }}>
+    <div className= "min-h-screen px-3 pt-5" style={{ background: 'var(--color-background)' }}>
       <div 
-        className="max-w-md"
+        className="max-w-md md:mx-auto md:max-w-2xl"
         onClick={(e) => {
           if (!e.target.closest('.question-card') && !e.target.closest('.owner-card')) {
             setExpandedQuestionIndex(null);

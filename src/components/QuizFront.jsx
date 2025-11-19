@@ -161,7 +161,7 @@ const QuizFront = ({ mode, onProceed, quizData }) => {
     <div className="h-screen flex flex-col overflow-hidden" style={{ background: 'var(--color-background)' }}>
       <Header />
       
-      <div className="w-full mt-4 h-30 flex-shrink-0 relative" style={{ background: bannerImage ? 'transparent' : '#CCC' }}>
+      <div className="w-full h-30 sm:h-45 flex-shrink-0 relative" style={{ background: bannerImage ? 'transparent' : '#CCC' }}>
         {bannerImage ? (
           <img src={bannerImage} alt="Banner" className="w-full h-full object-cover" />
         ) : (
@@ -184,9 +184,9 @@ const QuizFront = ({ mode, onProceed, quizData }) => {
       </div>
       
       <div className="flex-1 flex flex-col px-6 py-6 overflow-hidden">
-        <div className="max-w-md mx-auto w-full flex flex-col h-full">
+        <div className="mx-auto w-full sm:w-3/4 flex flex-col h-full">
           <div className="mb-6">
-            <p className="text-sm dm-sans-italic text-white opacity-80 mb-4">title</p>
+            <p className="text-sm dm-sans-italic text-white opacity-80 mb-2">title</p>
             <div 
               className="rounded-3xl px-6 py-7 mb-3"
               style={{ background: 'var(--color-create)' }}
@@ -283,7 +283,7 @@ const QuizFront = ({ mode, onProceed, quizData }) => {
             />
           </div>
 
-          <div className="mt-auto flex gap-4 pb-4">
+          <div className="mt-auto sm:mt-0 flex gap-4 pb-4">
             <button
               onClick={() => window.history.back()}
               className="flex-1 px-2 py-2 rounded-full transition-all"
@@ -307,8 +307,10 @@ const QuizFront = ({ mode, onProceed, quizData }) => {
             </button>
           </div>
         </div>
-      </div>
 
+      </div>
+      
+      
       <style>{`
         input[type="number"]::-webkit-inner-spin-button,
         input[type="number"]::-webkit-outer-spin-button {
