@@ -29,8 +29,40 @@ const Login = () => {
     }
   }, [location.state]);
 
+  const getDetailedPasswordError = (pwd) => {
+    const errors = [];
+    
+    if (pwd.length < 8) {
+      errors.push("at least 8 characters");
+    }
+    if (!/[A-Z]/.test(pwd)) {
+      errors.push("one uppercase letter");
+    }
+    if (!/[a-z]/.test(pwd)) {
+      errors.push("one lowercase letter");
+    }
+    if (!/[0-9]/.test(pwd)) {
+      errors.push("one number");
+    }
+    if (!/[!@#$%^&*(),.?":{}|<>]/.test(pwd)) {
+      errors.push("one special character (!@#$%^&*)");
+    }
+    
+    if (errors.length > 0) {
+      return `Password must contain ${errors.join(", ")}`;
+    }
+    return null;
+  };
+
   const handleButtonClick = () => {
     const message = checkValidData(email.current.value, password.current.value);
+    
+    if (message && !isSignInForm && message.toLowerCase().includes("password")) {
+      const detailedError = getDetailedPasswordError(password.current.value);
+      setErrorMessage(detailedError || message);
+      return;
+    }
+    
     setErrorMessage(message);
     
     if (message) return;
@@ -38,8 +70,6 @@ const Login = () => {
     if (!isSignInForm) {
 
       const nameValue = name.current.value.trim();
-      // const emailValue = email.current.value.trim();
-      // const passwordValue = password.current.value;
 
       console.log(" Name Input Value:", nameValue);
       console.log(" Email:", email.current.value);
@@ -120,7 +150,7 @@ const Login = () => {
 
   return (
     <div 
-      className="min-h-screen"
+      className="min-h-screen flex flex-col"
       style={{
         background: `
           radial-gradient(ellipse 90% 40% at center, rgba(6,0,123,0.6) 0%, rgba(25,16,35,1) 70%),
@@ -132,25 +162,27 @@ const Login = () => {
     >
       <Header />
       
-      <div className="flex items-center justify-center px-6 py-12">
+      <div className="flex-1 flex items-center justify-center px-6">
         <form
           onSubmit={(e) => e.preventDefault()}
           className="w-full max-w-md p-9"
         >
-          <h1 className="text-3xl font-bold mb-6 pb-15 text-white text-center">
+          <h1 className="text-3xl font-bold mb-2 pb-15 text-white text-center">
             {isSignInForm ? "Sign In" : "Sign Up"}
           </h1>
 
           {!isSignInForm && (
-            <div className="relative mb-5">
-              <FiUser className="absolute left-5 top-1/2 transform -translate-y-1/2 text-white text-xl" />
-              <input
-                ref={name}
-                type="text"
-                placeholder="Full Name"
-                className="w-full pl-14 pr-5 py-3 bg-transparent text-white rounded-full border-2 border-white border-opacity-40 focus:border-opacity-70 focus:outline-none transition-all placeholder-gray-400"
-              />
-            </div>
+            <>
+              <div className="relative mb-5">
+                <FiUser className="absolute left-5 top-1/2 transform -translate-y-1/2 text-white text-xl" />
+                <input
+                  ref={name}
+                  type="text"
+                  placeholder="Full Name"
+                  className="w-full pl-14 pr-5 py-3 bg-transparent text-white rounded-full border-2 border-white border-opacity-40 focus:border-opacity-70 focus:outline-none transition-all placeholder-gray-400"
+                />
+              </div>
+            </>
           )}
 
           <div className="relative mb-4">
@@ -172,6 +204,10 @@ const Login = () => {
               className="w-full pl-14 pr-5 py-3 bg-transparent text-white rounded-full border-2 border-white border-opacity-40 focus:border-opacity-70 focus:outline-none transition-all placeholder-gray-400"
             />
           </div>
+          
+          {/* <p className="text-gray-300 text-xs mb-7 px-2">
+              Password must contain: at least 8 characters, one uppercase letter, one lowercase letter, one number, and one special character
+          </p> */}
 
           {errorMessage && (
             <p className="text-red-500 text-sm mb-4">{errorMessage}</p>
@@ -179,7 +215,7 @@ const Login = () => {
 
           <button
             onClick={handleButtonClick}
-            className="w-full  py-3 rounded-full text-lg font-medium text-main bg-accent transition-all duration-200 hover:opacity-90"
+            className="w-full mt-2 py-3 rounded-full text-lg font-medium text-main bg-accent transition-all duration-200 hover:opacity-90"
           style={{ backgroundColor: "var(--color-join)" }}
           >
             {isSignInForm ? "Sign In" : "Sign Up"}
