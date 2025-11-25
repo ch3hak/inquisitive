@@ -188,8 +188,8 @@ const Home = () => {
                     <h2 className="text-4xl lg:text-5xl" style={{ fontFamily: 'Bodoni72, serif' }}>Join Quiz</h2>
                   </div>
                   
-                  <div className="flex items-center gap-3 lg:gap-4 lg:justify-end">
-                    <div className="flex-1 max-w-full lg:max-w-md flex items-center gap-2 rounded-xl px-4 lg:px-5 py-3" style={{ background: 'rgba(255, 255, 255, 0.15)', filter: 'drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2))' }}>
+                  <div className="flex items-center gap-4 md:justify-end">
+                    <div className="flex items-center gap-2 rounded-xl px-3 py-3 lg:px-5 flex-1 min-w-0 lg:flex-none lg:w-80" style={{ background: 'rgba(255, 255, 255, 0.15)', filter: 'drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2))', maxWidth: 'calc(100% - 30px)' }}>
                       <span className="text-sm lg:text-base opacity-70 flex-shrink-0">#</span>
                       <input
                         type="text"
