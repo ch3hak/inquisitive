@@ -40,11 +40,19 @@ const CreatedQuizzes = () => {
               quizCode: quizData.quizCode,
               hashtag: quizData.hashtag || quizData.subject || "GENERAL",
               acceptingResponses: quizData.acceptingResponses ?? true,
-              takenBy: uniqueUsers.size
+              takenBy: uniqueUsers.size,
+              createdAt: quizData.createdAt || quizData.timestamp || 0
             };
           })
         );
         
+        createdQuizList.sort((a, b) => {
+          if (typeof a.createdAt === 'object' && a.createdAt?.seconds) {
+            return b.createdAt.seconds - a.createdAt.seconds;
+          }
+          return b.createdAt - a.createdAt;
+        });
+
         setCreatedQuizzes(createdQuizList);
       } catch (error) {
         console.error("Error loading created quizzes:", error);
@@ -114,9 +122,9 @@ const CreatedQuizzes = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[var(--color-background)] ">
+    <div className="min-h-screen bg-[var(--color-background)]">
       <Header />
-      <div className="absolute top-[30%] left-1/2 -translate-x-1/2 w-[600px] h-[600px] rounded-full pointer-events-none z-0"
+      <div className="absolute top-[30%] left-1/2 -translate-x-1/2 w-full max-w-[600px] h-[600px] rounded-full pointer-events-none z-0"
         style={{
           background: "radial-gradient(circle, rgba(90, 132, 255, 0.25) 0%, transparent 70%)",
           filter: "blur(100px)"

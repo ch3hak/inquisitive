@@ -35,11 +35,19 @@ const JoinedQuizzes = () => {
               quizCode: quizData.quizCode,
               createdBy: quizData.createdByName || "Unknown",
               score: respDoc.data().score,
-              hashtag: quizData.hashtag || quizData.subject || "GENERAL"
+              hashtag: quizData.hashtag || quizData.subject || "GENERAL",
+              attemptedAt: respDoc.data().timestamp || respDoc.data().createdAt || 0 
             });
           }
         }
         
+        attemptedList.sort((a, b) => {
+          if (typeof a.attemptedAt === 'object' && a.attemptedAt?.seconds) {
+            return b.attemptedAt.seconds - a.attemptedAt.seconds;
+          }
+          return b.attemptedAt - a.attemptedAt;
+        });
+
         setAttemptedQuizzes(attemptedList);
       } catch (error) {
         console.error("Error loading attempted quizzes:", error);
@@ -53,7 +61,7 @@ const JoinedQuizzes = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[var(--color-background)] flex flex-col">
+      <div className="min-h-screen bg-[var(--color-background)] flex flex-col overflow-x-hidden">
         <Header />
         <div className="flex-1 flex items-center justify-center text-main">
           <p style={{ fontFamily: "var(--font-main)" }}>Loading your joined quizzes...</p>
@@ -83,7 +91,7 @@ const JoinedQuizzes = () => {
     <div className="min-h-screen bg-[var(--color-background)]">
       <Header />
 
-      <div className="absolute top-[30%] left-1/2 -translate-x-1/2 w-[600px] h-[600px] rounded-full pointer-events-none z-0"
+      <div className="absolute top-[30%] left-1/2 -translate-x-1/2 w-full max-w-[600px] h-[600px] rounded-full pointer-events-none z-0"
         style={{
           background: "radial-gradient(circle, rgba(41, 5, 95, 0.3) 0%, transparent 70%)",
           filter: "blur(100px)"

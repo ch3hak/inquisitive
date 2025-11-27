@@ -321,8 +321,9 @@ const QuizFront = ({ mode, onProceed, quizData }) => {
         }
         input[type="date"]::-webkit-calendar-picker-indicator,
         input[type="time"]::-webkit-calendar-picker-indicator {
-          filter: invert(1);
-          opacity: 0.4;
+          filter: brightness(1);
+          opacity: 1;
+          cursor: pointer;
         }
       `}</style>
     </div>

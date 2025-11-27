@@ -277,7 +277,7 @@ const Home = () => {
             >
               <div className="absolute right-6 top-1/2 -translate-y-1/2 opacity-15 pointer-events-none" style={{ filter: 'drop-shadow(0 8px 16px rgba(0, 0, 0, 0.5))' }}>
                 <svg width="100" height="85" viewBox="0 0 109 91" fill="none" xmlns="http://www.w3.org/2000/svg" className="hidden lg:block">
-                  <path d="M92.5 0H23.5L0 36.5978H58.2639L39.5 68.7446H66.5L58.2639 91L109 54.4022H81.7568L98.5 25.7174H66.5L92.5 0Z" fill="#06034C"/>
+                  <path d="M92.5 0H23.5L0 36.5978H58.2639L39.5 68.7446H66.5L58.2639 91L109 54.4022H81.7568L98.5 25.7174H66.5L92.5 0Z" fill="var(--color-insight)"/>
                 </svg>
                 <svg width="90" height="75" viewBox="0 0 109 91" fill="none" xmlns="http://www.w3.org/2000/svg" className="lg:hidden">
                   <path d="M92.5 0H23.5L0 36.5978H58.2639L39.5 68.7446H66.5L58.2639 91L109 54.4022H81.7568L98.5 25.7174H66.5L92.5 0Z" fill="#06034C"/>

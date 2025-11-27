@@ -192,7 +192,7 @@ const UserPage = () => {
                 <h2 className="text-4xl" style={{ fontFamily: 'Bodoni72, serif' }}>Join Quiz</h2>
                 
                 {!showInput && (
-                  <button className="w-12 h-12 rounded-full border-2 border-white flex items-center justify-center transition-transform duration-300 cursor-pointer" style={{
+                  <button className="w-12 h-12 rounded-full border-2 border-white flex items-center justify-center transition-transform duration-300 " style={{
                     transform: hoveredCard === 'join' ? 'rotate(-90deg)' : 'rotate(0deg)',
                     filter: 'drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3))'
                   }}>
@@ -204,37 +204,37 @@ const UserPage = () => {
               </div>
               
               {showInput && (
-                <div className="flex items-center gap-3" style={{ animation: 'fadeIn 0.3s ease-out' }}>
-                  <div className="flex-1 flex items-center gap-2 rounded-xl px-4 py-2" style={{ background: 'rgba(255, 255, 255, 0.15)', filter: 'drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2))' }}>
-                    <span className="text-sm opacity-70">#</span>
-                    <input
-                      type="text"
-                      placeholder="Enter Code"
-                      value={quizCode}
-                      onChange={e => setQuizCode(e.target.value)}
-                      className="bg-transparent flex-1 outline-none text-white placeholder-white placeholder-opacity-50"
-                      onKeyPress={(e) => e.key === 'Enter' && handleJoinQuiz()}
-                      onClick={(e) => e.stopPropagation()}
-                      autoFocus
-                    />
-                    <svg className="w-4 h-4 opacity-50" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-                      <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-                    </svg>
+                <div className="flex items-center gap-4 md:justify-end">
+                    <div className="flex items-center gap-2 rounded-xl px-3 py-3 lg:px-5 flex-1 min-w-0 lg:flex-none lg:w-80" style={{ background: 'rgba(255, 255, 255, 0.15)', filter: 'drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2))', maxWidth: 'calc(100% - 30px)' }}>
+                      <span className="text-sm lg:text-base opacity-70 flex-shrink-0">#</span>
+                      <input
+                        type="text"
+                        placeholder="Enter Code"
+                        value={quizCode}
+                        onChange={e => setQuizCode(e.target.value)}
+                        className="bg-transparent flex-1 min-w-0 outline-none text-white placeholder-white placeholder-opacity-50 text-base lg:text-lg"
+                        onKeyPress={(e) => e.key === 'Enter' && handleJoinQuiz()}
+                        onClick={(e) => e.stopPropagation()}
+                        autoFocus
+                      />
+                      <svg className="w-4 h-4 lg:w-5 lg:h-5 opacity-50 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                      </svg>
+                    </div>
+                    <button 
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleJoinQuiz();
+                      }}
+                      className="w-12 h-12 lg:w-14 lg:h-14 rounded-full border-2 border-white flex items-center justify-center transition-all cursor-pointer flex-shrink-0"
+                      style={{ filter: 'drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3))' }}
+                    >
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-6 h-6" style={{ transform: 'rotate(-90deg)' }}>
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                      </svg>
+                    </button>
                   </div>
-                  <button 
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleJoinQuiz();
-                    }}
-                    className="w-12 h-12 rounded-full border-2 border-white flex items-center justify-center transition-all cursor-pointer"
-                    style={{ filter: 'drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3))' }}
-                  >
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5" style={{ transform: 'rotate(-90deg)' }}>
-                      <path d="M5 12h14M12 5l7 7-7 7"/>
-                    </svg>
-                  </button>
-                </div>
               )}
             </div>
           </div>

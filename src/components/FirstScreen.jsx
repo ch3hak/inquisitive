@@ -155,8 +155,8 @@ const FirstScreen = () => {
       Face: Face1,
       title: "Feeling Bored?",
       subtitle: "Try taking a Quiz on",
-      loginColor: "var{--color-join}",
-
+      loginColor: "var(--color-join)",
+      signupColor: "var(--color-join-highlight)"
     },
     {
       MobileShape: MobileShape2,
@@ -164,7 +164,8 @@ const FirstScreen = () => {
       Face: Face2,
       title: "Feeling Creative?",
       subtitle: "Try making a Quiz on",
-      loginColor: "var{--color-create}",
+      loginColor: "var(--color-create)",
+      signupColor: "var(--color-create-highlight)"
     },
     {
       MobileShape: MobileShape3,
@@ -172,7 +173,8 @@ const FirstScreen = () => {
       Face: Face3,
       title: "Feeling Introspective?",
       subtitle: "Try insights with Quiz on",
-      loginColor: "var{--color-insights}",
+      loginColor: "var(--color-insight)",
+      signupColor: "var(--color-insights-blue)"
     },
   ];
 
@@ -215,7 +217,10 @@ const FirstScreen = () => {
         <button
           onClick={handleSignIn}
           className="cursor-pointer px-6 py-2 rounded-full text-sm font-medium text-white border border-white/30 hover:bg-white/10 transition-all"
-          style={{ fontFamily: "var(--font-main)" }}
+          style={{ fontFamily: "var(--font-main)", 
+          backgroundColor: currentData.loginColor,
+        
+        }}
         >
           Log In
         </button>
