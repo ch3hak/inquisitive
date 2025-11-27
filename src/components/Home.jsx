@@ -173,7 +173,7 @@ const Home = () => {
               {!showInput ? (
                 <div className="flex justify-between items-center">
                   <h2 className="text-4xl lg:text-5xl" style={{ fontFamily: 'Bodoni72, serif' }}>Join Quiz</h2>
-                  <button className="w-12 h-12 lg:w-14 lg:h-14 rounded-full border-2 border-white flex items-center justify-center transition-transform duration-300 flex-shrink-0" style={{
+                  <button className="w-12 h-12 lg:w-14 lg:h-14 rounded-full border-2 border-white flex items-center justify-center cursor-pointer transition-transform duration-300 flex-shrink-0" style={{
                     transform: hoveredCard === 'join' ? 'rotate(-90deg)' : 'rotate(0deg)',
                     filter: 'drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3))'
                   }}>
@@ -211,7 +211,7 @@ const Home = () => {
                         e.stopPropagation();
                         handleJoinQuiz();
                       }}
-                      className="w-12 h-12 lg:w-14 lg:h-14 rounded-full border-2 border-white flex items-center justify-center transition-all flex-shrink-0"
+                      className="w-12 h-12 lg:w-14 lg:h-14 rounded-full border-2 border-white flex items-center justify-center transition-all cursor-pointer flex-shrink-0"
                       style={{ filter: 'drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3))' }}
                     >
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-6 h-6" style={{ transform: 'rotate(-90deg)' }}>
@@ -254,7 +254,7 @@ const Home = () => {
 
               <div className="p-6 lg:p-8 h-full flex items-center justify-between relative z-10">
                 <h2 className="text-3xl lg:text-4xl" style={{ fontFamily: 'Bodoni72, serif' }}>Create Quiz</h2>
-                <button className="w-12 h-12 lg:w-14 lg:h-14 rounded-full border-2 border-white flex items-center justify-center transition-transform duration-300" style={{
+                <button className="w-12 h-12 lg:w-14 lg:h-14 rounded-full border-2 border-white flex items-center justify-center cursor-pointer transition-transform duration-300" style={{
                   transform: hoveredCard === 'create' ? 'rotate(-90deg)' : 'rotate(0deg)',
                   filter: 'drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3))'
                 }}>
@@ -286,7 +286,7 @@ const Home = () => {
 
               <div className="p-6 lg:p-8 h-full flex items-center justify-between relative z-10">
                 <h2 className="text-3xl lg:text-4xl" style={{ fontFamily: 'Bodoni72, serif' }}>Get Insights</h2>
-                <button className="w-12 h-12 lg:w-14 lg:h-14 rounded-full border-2 border-white flex items-center justify-center transition-transform duration-300" style={{
+                <button className="w-12 h-12 lg:w-14 lg:h-14 rounded-full border-2 border-white flex items-center justify-center cursor-pointer transition-transform duration-300" style={{
                   transform: hoveredCard === 'insights' ? 'rotate(-90deg)' : 'rotate(0deg)',
                   filter: 'drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3))'
                 }}>

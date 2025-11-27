@@ -100,7 +100,7 @@ const ResponsesPage = () => {
 
         <button
           onClick={() => navigate(`/quiz/${code}`)}
-          className="w-full mt-8 py-4 px-6 rounded-3xl text-xl transition-all text-white"
+          className="w-full mt-8 py-4 px-6 rounded-3xl text-xl transition-all text-white cursor-pointer"
           style={{ background: 'rgba(255, 255, 255, 0.1)', fontFamily: 'var(--font-heading)' }}
           onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.2)'}
           onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)'}

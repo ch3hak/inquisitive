@@ -155,7 +155,8 @@ const FirstScreen = () => {
       Face: Face1,
       title: "Feeling Bored?",
       subtitle: "Try taking a Quiz on",
-      buttonColor: "#29055F",
+      loginColor: "var{--color-join}",
+
     },
     {
       MobileShape: MobileShape2,
@@ -163,7 +164,7 @@ const FirstScreen = () => {
       Face: Face2,
       title: "Feeling Creative?",
       subtitle: "Try making a Quiz on",
-      buttonColor: "#5A84FF",
+      loginColor: "var{--color-create}",
     },
     {
       MobileShape: MobileShape3,
@@ -171,7 +172,7 @@ const FirstScreen = () => {
       Face: Face3,
       title: "Feeling Introspective?",
       subtitle: "Try insights with Quiz on",
-      buttonColor: "#06034C",
+      loginColor: "var{--color-insights}",
     },
   ];
 
@@ -191,7 +192,7 @@ const FirstScreen = () => {
         <>
           <button
             onClick={handlePrevious}
-            className="absolute left-8 z-20 w-14 h-14 rounded-full border-2 border-white/30 flex items-center justify-center hover:bg-white/10 transition-all"
+            className="absolute left-8 z-20 w-14 h-14 rounded-full border-2 border-white/30 flex items-center justify-center cursor-pointer hover:bg-white/10 transition-all"
             aria-label="Previous"
           >
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -200,7 +201,7 @@ const FirstScreen = () => {
           </button>
           <button
             onClick={handleNext}
-            className="absolute right-8 z-20 w-14 h-14 rounded-full border-2 border-white/30 flex items-center justify-center hover:bg-white/10 transition-all"
+            className="cursor-pointer absolute right-8 z-20 w-14 h-14 rounded-full border-2 border-white/30 flex items-center justify-center hover:bg-white/10 transition-all"
             aria-label="Next"
           >
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -213,16 +214,16 @@ const FirstScreen = () => {
       <div className="absolute top-6 right-6 flex gap-3 z-20">
         <button
           onClick={handleSignIn}
-          className="px-6 py-2 rounded-full text-sm font-medium text-white border border-white/30 hover:bg-white/10 transition-all"
+          className="cursor-pointer px-6 py-2 rounded-full text-sm font-medium text-white border border-white/30 hover:bg-white/10 transition-all"
           style={{ fontFamily: "var(--font-main)" }}
         >
           Log In
         </button>
         <button
           onClick={handleSignUp}
-          className="px-6 py-2 rounded-full text-sm font-medium text-white transition-all hover:opacity-90"
+          className="cursor-pointer px-6 py-2 rounded-full text-sm font-medium text-white transition-all hover:opacity-90"
           style={{
-            backgroundColor: currentData.buttonColor,
+            backgroundColor: currentData.signupColor,
             fontFamily: "var(--font-main)",
           }}
         >
@@ -262,7 +263,7 @@ const FirstScreen = () => {
             Inquizitive
           </h1>
           <button
-            className="mt-4 text-white/70 hover:text-white transition-all flex items-center gap-2 mx-auto text-sm md:text-base"
+            className="cursor-pointer mt-4 text-white/70 hover:text-white transition-all flex items-center gap-2 mx-auto text-sm md:text-base"
             style={{ fontFamily: "var(--font-main)" }}
           >
             Learn more about us

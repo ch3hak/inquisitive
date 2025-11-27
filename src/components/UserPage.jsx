@@ -192,7 +192,7 @@ const UserPage = () => {
                 <h2 className="text-4xl" style={{ fontFamily: 'Bodoni72, serif' }}>Join Quiz</h2>
                 
                 {!showInput && (
-                  <button className="w-12 h-12 rounded-full border-2 border-white flex items-center justify-center transition-transform duration-300" style={{
+                  <button className="w-12 h-12 rounded-full border-2 border-white flex items-center justify-center transition-transform duration-300 cursor-pointer" style={{
                     transform: hoveredCard === 'join' ? 'rotate(-90deg)' : 'rotate(0deg)',
                     filter: 'drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3))'
                   }}>
@@ -227,7 +227,7 @@ const UserPage = () => {
                       e.stopPropagation();
                       handleJoinQuiz();
                     }}
-                    className="w-12 h-12 rounded-full border-2 border-white flex items-center justify-center transition-all"
+                    className="w-12 h-12 rounded-full border-2 border-white flex items-center justify-center transition-all cursor-pointer"
                     style={{ filter: 'drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3))' }}
                   >
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5" style={{ transform: 'rotate(-90deg)' }}>
@@ -261,7 +261,7 @@ const UserPage = () => {
 
             <div className="p-6 h-full flex items-center justify-between relative z-10">
               <h2 className="text-4xl" style={{ fontFamily: 'Bodoni72, serif' }}>Create Quiz</h2>
-              <button className="w-12 h-12 rounded-full border-2 border-white flex items-center justify-center transition-transform duration-300" style={{
+              <button className="w-12 h-12 rounded-full border-2 border-white flex items-center justify-center transition-transform duration-300 cursor-pointer" style={{
                 transform: hoveredCard === 'create' ? 'rotate(-90deg)' : 'rotate(0deg)',
                 filter: 'drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3))'
               }}>
@@ -290,7 +290,7 @@ const UserPage = () => {
 
             <div className="p-6 h-full flex items-center justify-between relative z-10">
               <h2 className="text-4xl" style={{ fontFamily: 'Bodoni72, serif' }}>Get Insights</h2>
-              <button className="w-12 h-12 rounded-full border-2 border-white flex items-center justify-center transition-transform duration-300" style={{
+              <button className="w-12 h-12 rounded-full border-2 border-white flex items-center justify-center transition-transform duration-300 cursor-pointer" style={{
                 transform: hoveredCard === 'insights' ? 'rotate(-90deg)' : 'rotate(0deg)',
                 filter: 'drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3))'
               }}>

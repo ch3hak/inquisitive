@@ -118,7 +118,7 @@ const ScorePage = () => {
         <div className="flex gap-4 mt-12">
           <button
             onClick={() => navigate('/joined-quizzes')}
-            className="flex-1 py-4 rounded-full text-lg transition-all dm-sans-regular"
+            className="flex-1 py-4 rounded-full text-lg transition-all dm-sans-regular cursor-pointer"
             style={{ 
               background: 'rgba(255, 255, 255, 0.15)',
               color: 'white',
@@ -129,7 +129,7 @@ const ScorePage = () => {
           </button>
           <button
             onClick={() => navigate(`/quiz/${code}`)}
-            className="flex-1 py-4 rounded-full text-lg transition-all dm-sans-regular"
+            className="flex-1 py-4 rounded-full text-lg transition-all dm-sans-regular cursor-pointer"
             style={{ 
               background: 'var(--color-join)',
               color: 'white',

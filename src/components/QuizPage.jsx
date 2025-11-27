@@ -312,7 +312,7 @@ const QuizPage = () => {
                         e.stopPropagation();
                         handleDeleteQuestion(index);
                       }}
-                      className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 transition-all"
+                      className="w-10 h-10 rounded-full flex items-center justify-center cursor-pointer flex-shrink-0 transition-all"
                       style={{ 
                         background: 'rgba(255, 255, 255, 0.2)',
                         animation: 'fadeIn 0.3s ease-out'
@@ -359,7 +359,7 @@ const QuizPage = () => {
 
           <button
             onClick={handleSaveEdit}
-            className="w-full rounded-3xl py-4 transition-all text-2xl"
+            className="w-full rounded-3xl py-4 transition-all text-2xl cursor-pointer"
             style={{ background: 'var(--color-create)', fontFamily: 'var(--font-heading)' }}
           >
             Save Changes
@@ -370,7 +370,7 @@ const QuizPage = () => {
               setEditMode(false);
               setEditQuestionIndex(null);
             }}
-            className="w-full mt-4 rounded-3xl p-4 transition-all text-xl"
+            className="w-full mt-4 rounded-3xl p-4 transition-all text-xl cursor-pointer"
             style={{ fontFamily: 'var(--font-heading)', background: 'rgba(255, 255, 255, 0.1)' }}
           >
             Cancel
@@ -460,7 +460,7 @@ const QuizPage = () => {
             <button
               onClick={() => handleNavigateEditQuestion(-1)}
               disabled={questionsEdit.length <= 1}
-              className="w-14 h-14 rounded-full flex items-center justify-center transition-all disabled:opacity-30"
+              className="w-14 h-14 rounded-full flex items-center justify-center transition-all cursor-pointer disabled:opacity-30"
               style={{
                 background: 'transparent',
                 border: '2px solid rgba(255, 255, 255, 0.5)'
@@ -485,7 +485,7 @@ const QuizPage = () => {
             <button
               onClick={() => handleNavigateEditQuestion(1)}
               disabled={questionsEdit.length <= 1}
-              className="w-14 h-14 rounded-full flex items-center justify-center transition-all disabled:opacity-30"
+              className="w-14 h-14 rounded-full flex items-center justify-center transition-all cursor-pointer disabled:opacity-30"
               style={{
                 background: 'transparent',
                 border: '2px solid rgba(255, 255, 255, 0.5)'
@@ -582,7 +582,7 @@ const QuizPage = () => {
             <button
               onClick={() => handleNavigateQuestion(-1)}
               disabled={questions.length <= 1}
-              className="w-14 h-14 rounded-full flex items-center justify-center transition-all disabled:opacity-30"
+              className="w-14 h-14 rounded-full flex items-center justify-center transition-all cursor-pointer disabled:opacity-30"
               style={{
                 background: 'transparent',
                 border: '2px solid rgba(255, 255, 255, 0.5)'
@@ -595,7 +595,7 @@ const QuizPage = () => {
   
             <button
               onClick={() => setCurrentQuestionIndex(null)}
-              className="rounded-full px-3 py-3 transition-all flex items-center justify-center gap-2"
+              className="rounded-full px-3 py-3 transition-all flex items-center cursor-pointer justify-center gap-2"
               style={{ background: 'transparent' }}
             >
               <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -611,7 +611,7 @@ const QuizPage = () => {
             <button
               onClick={() => handleNavigateQuestion(1)}
               disabled={questions.length <= 1}
-              className="w-14 h-14 rounded-full flex items-center justify-center transition-all disabled:opacity-30"
+              className="w-14 h-14 rounded-full flex items-center justify-center cursor-pointer transition-all disabled:opacity-30"
               style={{
                 background: 'transparent',
                 border: '2px solid rgba(255, 255, 255, 0.5)'
@@ -703,7 +703,7 @@ const QuizPage = () => {
   
           <button
             onClick={() => navigate('/joined-quizzes')}
-            className="w-full py-5 px-6 rounded-3xl text-xl transition-all text-white"
+            className="w-full py-5 px-6 rounded-3xl text-xl transition-all cursor-pointer text-white"
             style={{ background: 'var(--color-join)', fontFamily: 'var(--font-heading)' }}
           >
             Back to Joined Quizzes
@@ -768,7 +768,7 @@ const QuizPage = () => {
               <button
                 key={index}
                 onClick={() => pickAnswer(currentQuestionIndex, index)}
-                className="w-full py-5 px-6 rounded-3xl text-center text-base dm-sans-regular transition-all"
+                className="w-full py-5 px-6 rounded-3xl text-center text-base cursor-pointer dm-sans-regular transition-all"
                 style={{
                   background: answers[currentQuestionIndex] === index 
                     ? 'var(--color-create)' 
@@ -785,7 +785,7 @@ const QuizPage = () => {
             <button
               onClick={() => handleNavigateQuestion(-1)}
               disabled={questions.length <= 1}
-              className="w-14 h-14 rounded-full flex items-center justify-center transition-all disabled:opacity-30"
+              className="w-14 h-14 rounded-full flex items-center justify-center transition-all cursor-pointer disabled:opacity-30"
               style={{
                 background: 'transparent',
                 border: '2px solid rgba(255, 255, 255, 0.5)'
@@ -798,7 +798,7 @@ const QuizPage = () => {
 
             <button
               onClick={() => setCurrentQuestionIndex(null)}
-              className="rounded-full px-3 py-3 transition-all flex items-center justify-center gap-2"
+              className="rounded-full px-3 py-3 transition-all flex items-center justify-center gap-2 cursor-pointer"
               style={{ background: 'transparent' }}
             >
               <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
@@ -810,7 +810,7 @@ const QuizPage = () => {
             <button
               onClick={() => handleNavigateQuestion(1)}
               disabled={questions.length <= 1}
-              className="w-14 h-14 rounded-full flex items-center justify-center transition-all disabled:opacity-30"
+              className="w-14 h-14 rounded-full flex items-center justify-center transition-all disabled:opacity-30 cursor-pointer"
               style={{
                 background: 'transparent',
                 border: '2px solid rgba(255, 255, 255, 0.5)'
@@ -1004,7 +1004,7 @@ const QuizPage = () => {
           <button
             onClick={submitQuiz}
             disabled={!allAnswered}
-            className="w-full py-5 px-6 rounded-3xl text-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed text-white"
+            className="w-full py-5 px-6 rounded-3xl text-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed text-white cursor-pointer"
             style={{
               background: allAnswered ? 'var(--color-join)' : 'rgba(41, 5, 95, 0.5)',
               fontFamily: 'var(--font-heading)'

@@ -22,7 +22,7 @@ const QuizCodeModal = ({ quizCode, onClose }) => {
       >
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 w-8 h-8 rounded-full flex items-center justify-center transition-all"
+          className="absolute top-4 right-4 w-8 h-8 rounded-full flex items-center justify-center cursor-pointer transition-all"
           style={{ background: 'rgba(255, 255, 255, 0.1)' }}
         >
           <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -49,7 +49,7 @@ const QuizCodeModal = ({ quizCode, onClose }) => {
             
             <button
               onClick={handleCopy}
-              className="w-full py-3 rounded-xl transition-all dm-sans-regular"
+              className="w-full py-3 rounded-xl transition-all cursor-pointer dm-sans-regular"
               style={{ 
                 background: copied ? 'rgba(255, 255, 255, 0.3)' : 'rgba(255, 255, 255, 0.1)',
               }}
@@ -75,7 +75,7 @@ const QuizCodeModal = ({ quizCode, onClose }) => {
 
           <button
             onClick={onClose}
-            className="w-full py-4 rounded-full transition-all"
+            className="w-full py-4 rounded-full transition-all cursor-pointer"
             style={{ 
               background: 'var(--color-create)',
               fontFamily: 'var(--font-heading)',

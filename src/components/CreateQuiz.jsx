@@ -234,7 +234,7 @@ const CreateQuiz = () => {
                   {options.length > 2 && (
                     <button
                       onClick={() => removeOption(index)}
-                      className="w-9 h-9 rounded-full flex items-center justify-center transition-all flex-shrink-0"
+                      className="w-9 h-9 rounded-full flex items-center justify-center cursor-pointer transition-all flex-shrink-0"
                       style={{ background: 'rgba(255, 255, 255, 0.12)' }}
                     >
                       <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -249,7 +249,7 @@ const CreateQuiz = () => {
             {options.length < 6 && (
               <button
                 onClick={addOption}
-                className="w-full rounded-3xl p-4 transition-all flex items-center justify-center"
+                className="w-full rounded-3xl p-4 transition-all flex items-center justify-center cursor-pointer"
                 style={{ background: 'rgba(90, 132, 255, 0.2)' }}
               >
                 <span className="text-2xl">+</span>
@@ -261,7 +261,7 @@ const CreateQuiz = () => {
             <button
               onClick={() => handleNavigateQuestion(-1)}
               disabled={questions.length <= 1}
-              className="w-14 h-14 rounded-full flex items-center justify-center transition-all disabled:opacity-30"
+              className="w-14 h-14 rounded-full flex items-center justify-center cursor-pointer transition-all disabled:opacity-30"
               style={{
                 background: 'transparent',
                 border: '2px solid rgba(255, 255, 255, 0.5)'
@@ -278,7 +278,7 @@ const CreateQuiz = () => {
                 setCurrentQuestionIndex(null);
                 setEditingQuestion(null);
               }}
-              className="rounded-full px-3 py-3 transition-all flex items-center justify-center gap-2"
+              className="rounded-full px-3 py-3 transition-all flex items-center justify-center gap-2 cursor-pointer"
               style={{ background: 'transparent' }}
             >
               <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -294,7 +294,7 @@ const CreateQuiz = () => {
             <button
               onClick={() => handleNavigateQuestion(1)}
               disabled={questions.length <= 1}
-              className="w-14 h-14 rounded-full flex items-center justify-center transition-all disabled:opacity-30"
+              className="w-14 h-14 rounded-full flex items-center justify-center cursor-pointer transition-all disabled:opacity-30"
               style={{
                 background: 'transparent',
                 border: '2px solid rgba(255, 255, 255, 0.5)'
@@ -355,7 +355,7 @@ const CreateQuiz = () => {
                           e.stopPropagation();
                           handleDeleteQuestion(index);
                         }}
-                        className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 transition-all"
+                        className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 cursor-pointer transition-all"
                         style={{ 
                           background: 'rgba(255, 255, 255, 0.2)',
                           animation: 'fadeIn 0.3s ease-out'
@@ -402,7 +402,7 @@ const CreateQuiz = () => {
 
             <button
               onClick={handleAddQuestion}
-              className="w-full rounded-3xl p-6 mb-4 transition-all flex items-center justify-center"
+              className="w-full rounded-3xl p-6 mb-4 transition-all flex items-center justify-center cursor-pointer"
               style={{ background: 'rgba(90, 132, 255, 0.3)' }}
             >
               <span className="text-4xl">+</span>
@@ -410,7 +410,7 @@ const CreateQuiz = () => {
 
             <button
               onClick={onSaveQuiz}
-              className="w-full rounded-3xl p-6 transition-all"
+              className="w-full rounded-3xl p-6 transition-all cursor-pointer"
               style={{ background: 'var(--color-create)' }}
             >
               <span className="text-xl" style={{ fontFamily: 'var(--font-heading)' }}>

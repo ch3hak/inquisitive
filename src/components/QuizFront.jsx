@@ -131,7 +131,7 @@ const QuizFront = ({ mode, onProceed, quizData }) => {
           <div className="mt-auto flex gap-4 pb-4">
             <button
               onClick={() => window.history.back()}
-              className="flex-1 px-2 py-2 rounded-full transition-all"
+              className="flex-1 px-2 py-2 rounded-full transition-all cursor-pointer"
               style={{ 
                 background: 'rgba(255, 255, 255, 0.15)',
                 color: 'white',
@@ -142,7 +142,7 @@ const QuizFront = ({ mode, onProceed, quizData }) => {
             </button>
             <button
               onClick={handleProceed}
-              className="flex-1 px-2 py-2 rounded-full transition-all text-white"
+              className="flex-1 px-2 py-2 rounded-full transition-all text-white cursor-pointer"
               style={{ 
                 background: 'var(--color-join)',
                 color: 'white',
@@ -286,7 +286,7 @@ const QuizFront = ({ mode, onProceed, quizData }) => {
           <div className="mt-auto sm:mt-0 flex gap-4 pb-4">
             <button
               onClick={() => window.history.back()}
-              className="flex-1 px-2 py-2 rounded-full transition-all"
+              className="flex-1 px-2 py-2 rounded-full transition-all cursor-pointer"
               style={{ 
                 background: 'rgba(255, 255, 255, 0.08)',
                 color: 'white',
@@ -297,7 +297,7 @@ const QuizFront = ({ mode, onProceed, quizData }) => {
             </button>
             <button
               onClick={handleProceed}
-              className="flex-1 px-2 py-2 rounded-full transition-all text-white"
+              className="flex-1 px-2 py-2 rounded-full cursor-pointer transition-all text-white"
               style={{ 
                 background: 'var(--color-create)',
                 fontFamily: 'var(--font-main)'

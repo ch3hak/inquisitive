@@ -215,7 +215,7 @@ const Login = () => {
 
           <button
             onClick={handleButtonClick}
-            className="w-full mt-2 py-3 rounded-full text-lg font-medium text-main bg-accent transition-all duration-200 hover:opacity-90"
+            className="w-full mt-2 py-3 rounded-full text-lg font-medium text-main bg-accent transition-all duration-200 cursor-pointer hover:opacity-90"
           style={{ backgroundColor: "var(--color-join)" }}
           >
             {isSignInForm ? "Sign In" : "Sign Up"}
