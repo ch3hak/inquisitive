@@ -36,7 +36,8 @@ const JoinedQuizzes = () => {
               createdBy: quizData.createdByName || "Unknown",
               score: respDoc.data().score,
               hashtag: quizData.hashtag || quizData.subject || "GENERAL",
-              attemptedAt: respDoc.data().timestamp || respDoc.data().createdAt || 0 
+              attemptedAt: respDoc.data().takenAt || respDoc.data().createdAt || 0,
+              docId: respDoc.id
             });
           }
         }

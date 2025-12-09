@@ -1,12 +1,14 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import logo from "../assets/LOGO.svg";
+import InfoPage from "./InfoPage";
 
 
 const FirstScreen = () => {
   const navigate = useNavigate();
   const [currentScreen, setCurrentScreen] = useState(0);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [showInfo, setShowInfo] = useState(false);
   const touchStartX = useRef(0);
   const touchEndX = useRef(0);
 
@@ -19,13 +21,13 @@ const FirstScreen = () => {
   }, []);
 
   useEffect(() => {
-    if (isMobile) {
+    if (isMobile && !showInfo) {
       const interval = setInterval(() => {
         setCurrentScreen((prev) => (prev + 1) % 3);
       }, 3000);
       return () => clearInterval(interval);
     }
-  }, [isMobile]);
+  }, [isMobile, showInfo]);
 
   const handleSignIn = () => {
     navigate("/login", { state: { isSignIn: true } });
@@ -190,7 +192,7 @@ const FirstScreen = () => {
       onTouchEnd={isMobile ? handleTouchEnd : undefined}
     >
 
-      {!isMobile && (
+      {!isMobile && !showInfo && (
         <>
           <button
             onClick={handlePrevious}
@@ -213,37 +215,41 @@ const FirstScreen = () => {
         </>
       )}
 
-      <div className="absolute top-6 right-6 flex gap-3 z-20">
-        <button
-          onClick={handleSignIn}
-          className="cursor-pointer px-6 py-2 rounded-full text-sm font-medium text-white border border-white/30 hover:bg-white/10 transition-all"
-          style={{ fontFamily: "var(--font-main)", 
-          backgroundColor: currentData.loginColor,
-        
-        }}
-        >
-          Log In
-        </button>
-        <button
-          onClick={handleSignUp}
-          className="cursor-pointer px-6 py-2 rounded-full text-sm font-medium text-white transition-all hover:opacity-90"
-          style={{
-            backgroundColor: currentData.signupColor,
-            fontFamily: "var(--font-main)",
-          }}
-        >
-          Sign Up
-        </button>
-      </div>
+      {!showInfo && (
+        <>
+          <div className="absolute top-6 right-6 flex gap-3 z-20">
+            <button
+              onClick={handleSignIn}
+              className="cursor-pointer px-6 py-2 rounded-full text-sm font-medium text-white border border-white/30 hover:bg-white/10 transition-all"
+              style={{ fontFamily: "var(--font-main)", 
+              backgroundColor: currentData.loginColor,
+            
+            }}
+            >
+              Log In
+            </button>
+            <button
+              onClick={handleSignUp}
+              className="cursor-pointer px-6 py-2 rounded-full text-sm font-medium text-white transition-all hover:opacity-90"
+              style={{
+                backgroundColor: currentData.signupColor,
+                fontFamily: "var(--font-main)",
+              }}
+            >
+              Sign Up
+            </button>
+          </div>
 
-      <div className="absolute top-6 left-6 z-20">
-        <img 
-        src={logo}
-        alt="Quiz App Logo"
-        className="h-8 cursor-pointer"
-        onClick={() => navigate("/home")}
-      />
-      </div>
+          <div className="absolute top-6 left-6 z-20">
+            <img 
+            src={logo}
+            alt="Quiz App Logo"
+            className="h-8 cursor-pointer"
+            onClick={() => navigate("/home")}
+          />
+          </div>
+        </>
+      )}
 
       <div className="mt-15 absolute inset-0 w-full h-full">
         <CurrentShape />
@@ -268,6 +274,7 @@ const FirstScreen = () => {
             Inquizitive
           </h1>
           <button
+            onClick={() => setShowInfo(true)}
             className="cursor-pointer mt-4 text-white/70 hover:text-white transition-all flex items-center gap-2 mx-auto text-sm md:text-base"
             style={{ fontFamily: "var(--font-main)" }}
           >
@@ -299,6 +306,14 @@ const FirstScreen = () => {
             ))}
           </div>
         )}
+      </div>
+
+      <div 
+        className={`fixed inset-0 h-screen w-screen bg-[#191023] transition-transform duration-700 ease-in-out z-50 ${
+          showInfo ? 'translate-y-0' : 'translate-y-full'
+        }`}
+      >
+        <InfoPage onClose={() => setShowInfo(false)} />
       </div>
     </div>
   );
