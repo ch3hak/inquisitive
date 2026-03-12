@@ -141,7 +141,7 @@ const Home = () => {
       <div className="flex-1 flex flex-col items-center justify-center px-4 lg:px-8 relative" style={{ zIndex: 1 }}>
         <div className="text-center mb-12 lg:mb-16">
           <h1 className="text-5xl md:text-6xl lg:text-7xl italic leading-tight" style={{ fontFamily: 'Bodoni72, serif' }}>
-            Inquizitive
+            Inquisitive
           </h1>
           <p className="text-xl md:text-2xl lg:text-3xl italic mt-2" style={{ fontFamily: 'Bodoni72, serif', opacity: 0.9 }}>
             Quizzes, Surveys & Insights

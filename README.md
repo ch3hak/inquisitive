@@ -1,4 +1,4 @@
-# Inquizitive
+# Inquisitive
 
 [Live Demo](https://inquisitive.vercel.app/)
 
@@ -29,7 +29,7 @@ Inquisitive is a **modern, lightning-fast quiz and poll platform** that lets you
     
 2.⁠ ⁠Navigate to the project directory:
    ⁠ ```bash
-   cd inquizitive```
+   cd inquisitive```
     ⁠
     
 3.⁠ ⁠Install dependencies:

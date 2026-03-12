@@ -271,7 +271,7 @@ const FirstScreen = () => {
             className="text-4xl md:text-6xl lg:text-7xl text-white tracking-wide"
             style={{ fontFamily: "var(--font-heading)" }}
           >
-            Inquizitive
+            Inquisitive
           </h1>
           <button
             onClick={() => setShowInfo(true)}
